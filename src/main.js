@@ -1,8 +1,8 @@
 const WIDTH = 800,
     HEIGHT = 600,
     groundFrac = 5, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
-    groundSections = 10, // good to make width divisble by this.
-    groundHeightVariance = 100; //(-variance -> variance)
+    groundSections = 15, // good to make width divisble by this.
+    groundHeightVariance = 50; //(-variance -> variance)
 
 groundHeight = HEIGHT - Math.floor(HEIGHT / (groundFrac)); // actual height of the ground coordniate wise
 
@@ -22,9 +22,11 @@ function generateMap() {
 
     beginShape();
     vertex(0, HEIGHT);
+    let y = groundHeight
     for (let i = 0; i < groundSections; i += 1) {
         x = (i * (WIDTH / groundSections));
-        vertex(x, normalise(noise(x), 0, 1, groundHeight - groundHeightVariance, groundHeight + groundHeightVariance));
+        y = normalise(noise(x), 0, 1, y - groundHeightVariance, y + groundHeightVariance)
+        vertex(x, y);
     }
     vertex(WIDTH, groundHeight);
     vertex(WIDTH, HEIGHT);
