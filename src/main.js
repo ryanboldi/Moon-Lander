@@ -30,15 +30,14 @@ function generateMap() {
     strokeWeight(3);
 
     beginShape();
-    vertex(0, HEIGHT);
+    vertex(-10, HEIGHT);
     let y = groundHeight
     for (let i = 0; i < groundSections; i += 1) {
         x = (i * (WIDTH / groundSections));
         y = normalise(noise(x), 0, 1, y - groundHeightVariance, y + groundHeightVariance)
         vertex(x, y);
     }
-    vertex(WIDTH, groundHeight);
-    vertex(WIDTH, HEIGHT);
+    vertex(WIDTH + 10, groundHeight);
     endShape();
 }
 
