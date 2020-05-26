@@ -27,32 +27,18 @@ class Moon {
         let bodies = [this.ground];
         this.landers.forEach(l => bodies.push(l.body));
 
-        World.add(this.engine.world, [this.ground]);
-        this.engine.world.gravity = 1;
+        World.add(this.engine.world, bodies);
         Engine.run(this.engine)
     }
 
     draw() {
-        let ground;
-        let lander;
-        //find the object reffering to ground
-        Composite.allBodies(this.engine.world).forEach(b => {
-            if (b.label == "ground") {
-                ground = b;
-            }
-            else if (b.label == "lander") {
-                lander = b;
-            }
-        })
-        console.log(ground);
-        //drawing the moon's surface
         fill(255);
         beginShape();
-        ground.vertices.forEach(v => {
+        this.ground.vertices.forEach(v => {
             vertex(v.x, v.y);
         });
         endShape(CLOSE);
 
-        //this.landers.forEach(l => l.draw(this.engine));
+        this.landers.forEach(l => l.draw());
     }
 }
