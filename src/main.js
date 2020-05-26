@@ -4,16 +4,25 @@ const WIDTH = 800,
     groundSections = 15, // good to make width divisble by this.
     groundHeightVariance = 50; //(-variance -> variance)
 
-groundHeight = HEIGHT - Math.floor(HEIGHT / (groundFrac)); // actual height of the ground coordniate wise
+let Engine = Matter.Engine,
+    World = Matter.World,
+    Composite = Matter.Composite,
+    Bodies = Matter.Bodies
 
+let groundHeight = HEIGHT - Math.floor(HEIGHT / (groundFrac)); // actual height of the ground coordinate wise
+
+let m;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
-    background(140);
     generateMap();
+    m = new Moon();
 }
 
-function draw() {}
+function draw() {
+    background(140);
+    m.draw();
+}
 
 
 function generateMap() {
