@@ -1,9 +1,13 @@
 class Lander {
     constructor(genome) {
-        this.body = Bodies.circle(50, 50, 10);
+        this.body = Bodies.trapezoid(400, 400, 150, 100, -0.5,
+            {
+                label: "lander"
+            });
+
     }
 
-    draw(){
+    draw() {
         console.log(this.body);
     }
 }
