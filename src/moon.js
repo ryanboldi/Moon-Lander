@@ -3,20 +3,22 @@ class Moon {
         this.engine = Engine.create();
         this.landers = [new Lander()];
 
-        let vertices = [];
+        let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
 
         let y = groundHeight
-        let x = -10;
-        for (let i = 0; i < groundSections; i += 1) {
+        let x = -20;
+        for (let i = 0; i < groundSections + 1; i += 1) {
             x = (i * (WIDTH / groundSections));
             y = normalise(noise(x), 0, 1, y - groundHeightVariance, y + groundHeightVariance);
             vertices.push({ x: x, y: y });
         }
 
+        vertices.push({ x: WIDTH + 20, y: HEIGHT + 20 });//ENDING VERTEX INCLUDED (offscreen on other side)
+
         console.log(vertices);
 
         this.ground = Matter.Body.create({
-            position: Matter.Vertices.centre(vertices),
+            position: Matter.Vertices.centre(vertices), //MAKES SURE THAT THE COORDS ARE ABSOLUTE RATHER THAN RELATIVE
             vertices: vertices,
             isStatic: true,
             label: "ground"
