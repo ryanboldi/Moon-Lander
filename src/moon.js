@@ -14,15 +14,13 @@ class Moon {
         let x = -20;
         for (let i = 0; i < groundSections + 1; i += 1) {
             x = (i * (WIDTH / groundSections));
-            y = normalise(noise(x), 0, 1, y - groundHeightVariance, y + groundHeightVariance);
+            if ((HEIGHT - y) > 100) y = normalise(noise(x), 0, 1, y - groundHeightVariance, y + groundHeightVariance);
+            else y = normalise(noise(x), 0, 1, y - groundHeightVariance, y);
             vertices.push({ x: x, y: y });
         }
 
         vertices.push({ x: WIDTH + 20, y: HEIGHT + 20 });//ENDING VERTEX INCLUDED (offscreen on other side)
-
-        console.log(vertices);
-
-        let pos = Matter.Vertices.centre(vertices)
+        let pos = Matter.Vertices.centre(vertices);
         this.ground = Bodies.fromVertices(pos.x, pos.y, vertices, { isStatic: true, label: 'ground' })
 
         let bodies = [this.ground];
@@ -34,9 +32,8 @@ class Moon {
     }
 
     draw() {
-        console.log(this.ground)
         fill(255);
-        //we don't wanna draw things recursivley, so we only draw things that have one part
+        //we don't wanna draw things recursivley, so we only draw things that have one
         this.ground.parts.forEach(p => {
             if (p.parts.length == 1) {
                 beginShape();
