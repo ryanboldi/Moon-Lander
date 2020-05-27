@@ -15,12 +15,13 @@ class Moon {
             vertices.push({ x: x, y: y });
         }
 
-        vertices.push({ x: WIDTH, y: HEIGHT });//ENDING VERTEX INCLUDED (offscreen on other side)
-        let pos = Matter.Vertices.centre(vertices);
+        vertices.push({ x: WIDTH + 10, y: HEIGHT });//ENDING VERTEX INCLUDED (offscreen on other side)
+        //vertices = Matter.Vertices.clockwiseSort(vertices);
+        let pos = Matter.Vertices.centre(Matter.Vertices.hull(vertices));
 
-        this.ground = Bodies.fromVertices(pos.x, pos.y, vertices, { isStatic: true, label: 'ground' });
+        this.ground = Bodies.fromVertices(pos.x, pos.y, vertices, { isStatic: true, label: 'ground', mass: 0 });
 
-        
+
         let bodies = [this.ground];
         this.landers.forEach(l => bodies.push(l.body));
 
