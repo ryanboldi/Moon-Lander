@@ -3,15 +3,11 @@ class Moon {
         this.engine = Engine.create();
         this.landers = [new Lander()];
 
-        let render = Render.create({
-            element: document.body,
-            engine: this.engine
-        });
-
-        let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
+        //let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
+        let vertices = [{ x: 0, y: HEIGHT }]
 
         let y = groundHeight
-        let x = -20;
+        let x = -10;
         for (let i = 0; i < groundSections + 1; i += 1) {
             x = (i * (WIDTH / groundSections));
             if ((HEIGHT - y) > 100) y = normalise(noise(x), 0, 1, y - groundHeightVariance, y + groundHeightVariance);
@@ -19,19 +15,21 @@ class Moon {
             vertices.push({ x: x, y: y });
         }
 
-        vertices.push({ x: WIDTH + 20, y: HEIGHT + 20 });//ENDING VERTEX INCLUDED (offscreen on other side)
+        vertices.push({ x: WIDTH, y: HEIGHT });//ENDING VERTEX INCLUDED (offscreen on other side)
         let pos = Matter.Vertices.centre(vertices);
-        this.ground = Bodies.fromVertices(pos.x, pos.y, vertices, { isStatic: true, label: 'ground' })
 
+        this.ground = Bodies.fromVertices(pos.x, pos.y, vertices, { isStatic: true, label: 'ground' });
+
+        
         let bodies = [this.ground];
         this.landers.forEach(l => bodies.push(l.body));
 
         World.add(this.engine.world, bodies);
         Engine.run(this.engine);
-        Render.run(render)
     }
 
     draw() {
+        noStroke();
         fill(255);
         //we don't wanna draw things recursivley, so we only draw things that have one
         this.ground.parts.forEach(p => {
@@ -44,8 +42,6 @@ class Moon {
                 endShape(CLOSE);
             }
         });
-
-
         this.landers.forEach(l => l.draw());
     }
 }
