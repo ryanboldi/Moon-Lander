@@ -4,9 +4,9 @@ class Moon {
         this.landers = [new Lander()];
 
         //let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
-        let vertices = [{ x: 0, y: HEIGHT }]
+        let vertices = [{ x: -10, y: HEIGHT }]
 
-        let y = groundHeight
+        let y = HEIGHT
         let x = -10;
         for (let i = 0; i < groundSections + 1; i += 1) {
             x = (i * (WIDTH / groundSections));
@@ -16,10 +16,30 @@ class Moon {
         }
 
         vertices.push({ x: WIDTH + 10, y: HEIGHT });//ENDING VERTEX INCLUDED (offscreen on other side)
-        //vertices = Matter.Vertices.clockwiseSort(vertices);
-        let pos = Matter.Vertices.centre(Matter.Vertices.hull(vertices));
+        // //vertices = Matter.Vertices.clockwiseSort(vertices);
 
-        this.ground = Bodies.fromVertices(pos.x, pos.y, vertices, { isStatic: true, label: 'ground', mass: 0 });
+        // let vertices = [{ x: 0, y: HEIGHT },
+        // { x: 50, y: HEIGHT - 100 },
+        // { x: 150, y: HEIGHT - 150 },
+        // { x: 500, y: HEIGHT - 400 },
+        // { x: 600, y: HEIGHT - 200 }]
+
+
+        let pos = Matter.Vertices.centre(vertices);
+
+        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground' });
+
+
+        //find difference from ground's first vertex and 0
+        let difX = (this.ground.bounds.min.x - vertices[0].x); // need to move this much to the left.
+        console.log(difX);
+        let difY = (this.ground.bounds.max.y - vertices[0].y); //need to move this much down
+        console.log(difY);
+
+        //let newPos = Matter.Vertices.centre(Matter.Vertices.hull(this.ground.vertices));
+
+        Matter.Body.translate(this.ground, { x: -difX, y: -difY });
+        //Matter.Body.setVertices(this.ground, vertices)
 
 
         let bodies = [this.ground];

@@ -1,8 +1,8 @@
 const WIDTH = 800,
     HEIGHT = 600,
     groundFrac = 5, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
-    groundSections = 15, // good to make width divisble by this.
-    groundHeightVariance = 100; //(-variance -> variance)
+    groundSections = 5, // good to make width divisble by this.
+    groundHeightVariance = 150; //(-variance -> variance)
 
 let Engine = Matter.Engine,
     World = Matter.World,
