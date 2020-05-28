@@ -16,14 +16,6 @@ class Moon {
         }
 
         vertices.push({ x: WIDTH + 10, y: HEIGHT });//ENDING VERTEX INCLUDED (offscreen on other side)
-        // //vertices = Matter.Vertices.clockwiseSort(vertices);
-
-        // let vertices = [{ x: 0, y: HEIGHT },
-        // { x: 50, y: HEIGHT - 100 },
-        // { x: 150, y: HEIGHT - 150 },
-        // { x: 500, y: HEIGHT - 400 },
-        // { x: 600, y: HEIGHT - 200 }]
-
 
         let pos = Matter.Vertices.centre(vertices);
 

@@ -1,13 +1,16 @@
 const WIDTH = 800,
     HEIGHT = 600,
-    groundFrac = 5, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
-    groundSections = 5, // good to make width divisble by this.
-    groundHeightVariance = 150; //(-variance -> variance)
+    groundFrac = 6, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
+    groundSections = 12, // good to make width divisble by this.
+    groundHeightVariance = 100; //(-variance -> variance)
+
+const landerWidth = 100;
 
 let Engine = Matter.Engine,
     World = Matter.World,
     Composite = Matter.Composite,
     Bodies = Matter.Bodies
+
 
 let groundHeight = HEIGHT - Math.floor(HEIGHT / (groundFrac)); // actual height of the ground coordinate wise
 
