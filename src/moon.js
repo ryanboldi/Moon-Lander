@@ -41,6 +41,10 @@ class Moon {
         Engine.run(this.engine);
     }
 
+    update(){
+        this.landers.forEach(l => l.update())
+    }
+
     draw() {
         noStroke();
         fill(255);
