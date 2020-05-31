@@ -8,15 +8,22 @@ class Lander {
     }
 
     update() {
-        let ray_x = this.body.position.x
-        let ray_y = this.body.position.y
-        let ray = createVector(-this.rayLength, 0);
-        this.ray_x = ray_x;
-        this.ray_y = ray_y;
+        this.ray_x = this.body.position.x
+        this.ray_y = this.body.position.y
+
+        let rayCount = 9;
+        let angleToCover = Math.PI / 2;
+        let rayDif = angleToCover / 9;
+        let startAngle = (Math.PI - angleToCover) / 2;
+
         this.rays = [];
-        this.rays[0] = ray.rotate(this.body.angle - Math.PI / 4);
+
+        for (let i = 0; i < rayCount; i++) {
+            let ray = createVector(-this.rayLength, 0);
+            this.rays[i] = ray.rotate(this.body.angle - startAngle - (rayDif * i));
+        }
         //this.ray = ray.rotate(this.body.angle);
-        console.log(ray);
+        //console.log(ray);
     }
 
     draw() {
