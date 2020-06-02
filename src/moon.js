@@ -42,7 +42,7 @@ class Moon {
     }
 
     update(){
-        this.landers.forEach(l => l.update())
+        this.landers.forEach(l => l.update(this.ground))
     }
 
     draw() {

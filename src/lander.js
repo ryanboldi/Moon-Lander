@@ -7,7 +7,7 @@ class Lander {
         this.rayLength = 100;
     }
 
-    update() {
+    update(ground) {
         this.ray_x = this.body.position.x
         this.ray_y = this.body.position.y
 
@@ -22,8 +22,17 @@ class Lander {
             let ray = createVector(-this.rayLength, 0);
             this.rays[i] = ray.rotate(this.body.angle - startAngle - (rayDif * i));
         }
-        //this.ray = ray.rotate(this.body.angle);
-        //console.log(ray);
+
+        let rayValues = [];
+        //raycast all the rays, get their collisions
+        for (let i = 0; i < this.rays.length; i++) {
+            console.log(ground)
+            let col = Matter.Query.ray([ground], {x: this.ray_x, y:this.ray_y}, {x: this.rays[i].x, y:this.rays[i].y})
+            rayValues.push(col)
+        }
+
+        console.log(rayValues);
+
     }
 
     draw() {

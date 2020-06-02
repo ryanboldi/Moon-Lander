@@ -4,7 +4,7 @@ const WIDTH = 800,
     groundSections = 12, // good to make width divisble by this.
     groundHeightVariance = 100; //(-variance -> variance)
 
-const landerWidth = 50;
+const landerWidth = 15;
 
 let Engine = Matter.Engine,
     World = Matter.World,
