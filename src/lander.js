@@ -27,12 +27,17 @@ class Lander {
         //raycast all the rays, get their collisions
         for (let i = 0; i < this.rays.length; i++) {
             console.log(ground)
-            let col = Matter.Query.ray([ground], {x: this.ray_x, y:this.ray_y}, {x: this.rays[i].x, y:this.rays[i].y})
-            rayValues.push(col)
+            let start = { x: this.ray_x, y: this.ray_y }
+            let end = { x: this.rays[i].x + this.ray_x, y: this.rays[i].y + this.ray_y }
+            //console.log(start, end);
+            let col = raycast([ground], start, end, true);
+            rayValues.push(col);
         }
 
-        console.log(rayValues);
+        //rayValues is an array of arrays. rayValue[i] is the ith eyes' colisions, and rayvalue[i][j] is the ith eye's jth colision.
+        //get closest collision of all eyes, and store that as the only colision
 
+        console.log(rayValues);
     }
 
     draw() {
