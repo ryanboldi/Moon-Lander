@@ -34,10 +34,18 @@ class Lander {
             rayValues.push(col);
         }
 
+        let eyeCols = []
         //rayValues is an array of arrays. rayValue[i] is the ith eyes' colisions, and rayvalue[i][j] is the ith eye's jth colision.
         //get closest collision of all eyes, and store that as the only colision
+        for (let i = 0; i < rayValues.length; i++) {
+            if (typeof(rayValues[0][0]) != "undefined") {
+                eyeCols.push(rayValues[0][0].point);
+            } else{
+                eyeCols.push(0);
+            }
+        }
 
-        console.log(rayValues);
+        console.log(eyeCols);
     }
 
     draw() {
