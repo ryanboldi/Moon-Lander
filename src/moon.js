@@ -1,7 +1,7 @@
 class Moon {
     constructor() {
         this.engine = Engine.create();
-        this.landers = [new Lander()];
+        this.landers = [new Lander(this.engine)];
 
         //let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
         let vertices = [{ x: -10, y: HEIGHT }]
@@ -35,7 +35,7 @@ class Moon {
 
 
         let bodies = [this.ground];
-        this.landers.forEach(l => bodies.push(l.body));
+        
 
         this.engine.world.gravity.y = moonGravity;
         World.add(this.engine.world, bodies);

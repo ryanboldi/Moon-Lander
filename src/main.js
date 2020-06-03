@@ -4,7 +4,8 @@ const WIDTH = 800,
     groundSections = 12, // good to make width divisble by this.
     groundHeightVariance = 100; //(-variance -> variance)
 
-const landerWidth = 15;
+const landerWidth = 150;
+const footWidth = 0.1; //* landerWidth
 const landerRotAngle = 0.01; // radians per frame
 const landerBoosterStrength = 0.000375 //* lander mass
 const moonGravity = 0.35;
@@ -13,7 +14,6 @@ let Engine = Matter.Engine,
     World = Matter.World,
     Composite = Matter.Composite,
     Bodies = Matter.Bodies
-
 
 let groundHeight = HEIGHT - Math.floor(HEIGHT / (groundFrac)); // actual height of the ground coordinate wise
 

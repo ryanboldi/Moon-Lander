@@ -1,10 +1,48 @@
 class Lander {
-    constructor() {
+    constructor(engine) {
         this.body = Bodies.trapezoid(400, 50, landerWidth, landerWidth / 1.5, -0.5,
             {
                 label: "lander"
             });
+
+        this.drawEyes = false;
+
+        this.footWidth = footWidth * landerWidth;
         this.rayLength = 300;
+        this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth / 2), this.footWidth, this.footWidth);
+        this.foot1Conn = Matter.Constraint.create({
+            bodyA: this.body,
+            bodyB: this.foot1,
+            //length: 0,
+            pointA: {
+                x: -(landerWidth / 2.5),
+                y: (landerWidth / (1.5 * 2))
+            },
+            pointB: { x: 0, y: -(this.footWidth) / 2 },
+            stiffness: 1
+        });
+        this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth / 2), this.footWidth, this.footWidth);
+        this.foot2Conn = Matter.Constraint.create({
+            bodyA: this.body,
+            bodyB: this.foot2,
+            //length: 0,
+            pointA: {
+                x: (landerWidth / 2.5),
+                y: (landerWidth / (1.5 * 2))
+            },
+            pointB: { x: 0, y: -(this.footWidth) / 2 },
+            stiffness: 1
+        });
+
+        this.L = Matter.Body.create();
+
+        Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
+
+        //let bodies = [this.body, this.foot1, this.foot1Conn, this.foot2, this.foot2Conn]
+        
+        let bodies = [this.L]
+
+        World.add(engine.world, bodies);
     }
 
     update(ground) {
@@ -65,12 +103,12 @@ class Lander {
 
         if (left > right && left > 0.5) {
             //rotate counterclockwise
-            Matter.Body.rotate(this.body, -landerRotAngle);
+            Matter.Body.rotate(this.L, -landerRotAngle);
         }
 
         if (right > left && right > 0.5) {
             //rotate clockwise
-            Matter.Body.rotate(this.body, landerRotAngle);
+            Matter.Body.rotate(this.L, landerRotAngle);
         }
 
         if (up > 0.5) {
@@ -78,10 +116,19 @@ class Lander {
             stroke(100, 10, 0);
             let force = createVector(-100, 0);
             force.normalize();
-            force.mult(landerBoosterStrength * this.body.mass); //make it a specific length
-            force.rotate(this.body.angle + (Math.PI / 2));
-            line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
-            Matter.Body.applyForce(this.body, this.body.position, { x: force.x, y: force.y })
+            force.mult(landerBoosterStrength * (this.body.mass + (this.foot1.mass * 2))); //make it a specific length
+            force.rotate(this.L.angle + (Math.PI / 2));
+            //line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
+            fill(255, 165, 0);
+            noStroke();
+            push();
+            translate(this.body.position.x, this.body.position.y)
+            rotate(this.L.angle)
+            triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+            pop();
+            //x: (landerWidth / 2.5),
+            //y: (landerWidth / (1.5 * 2))
+            Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y })
         }
         console.log(this.body.position)
     }
@@ -97,10 +144,37 @@ class Lander {
         });
         endShape(CLOSE);
 
-        //draw rays
-        stroke(0);
-        for (let i = 0; i < this.rays.length; i++) {
-            line(this.ray_x, this.ray_y, this.ray_x + this.rays[i].x, this.ray_y + this.rays[i].y);
+        if (this.drawEyes) {
+            //draw rays
+            stroke(0);
+            for (let i = 0; i < this.rays.length; i++) {
+                line(this.ray_x, this.ray_y, this.ray_x + this.rays[i].x, this.ray_y + this.rays[i].y);
+            }
         }
+
+        fill(255, 0, 0);
+        beginShape();
+        this.foot1.vertices.forEach(v => {
+            vertex(v.x, v.y);
+        });
+        endShape(CLOSE);
+
+        fill(255, 0, 0);
+        beginShape();
+        this.foot2.vertices.forEach(v => {
+            vertex(v.x, v.y);
+        });
+        endShape(CLOSE);
+
+        // push()
+        // translate(this.body.position.x, this.body.position.y);
+        // rotate(this.body.angle);
+
+        // console.log(this.foot1Conn)
+        // stroke(255, 0, 0);
+        // strokeWeight(4);
+        // fill(255, 0, 0);
+        // point(0 - (landerWidth / 2.5), 0 + (landerWidth / (1.5 * 2)));
+        // pop()
     }
 }
