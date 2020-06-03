@@ -4,7 +4,7 @@ const WIDTH = 800,
     groundSections = 12, // good to make width divisble by this.
     groundHeightVariance = 100; //(-variance -> variance)
 
-const landerWidth = 150;
+const landerWidth = 30;
 const footWidth = 0.1; //* landerWidth
 const landerRotAngle = 0.01; // radians per frame
 const landerBoosterStrength = 0.000375 //* lander mass

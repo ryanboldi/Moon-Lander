@@ -10,29 +10,8 @@ class Lander {
         this.footWidth = footWidth * landerWidth;
         this.rayLength = 300;
         this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth / 2), this.footWidth, this.footWidth);
-        this.foot1Conn = Matter.Constraint.create({
-            bodyA: this.body,
-            bodyB: this.foot1,
-            //length: 0,
-            pointA: {
-                x: -(landerWidth / 2.5),
-                y: (landerWidth / (1.5 * 2))
-            },
-            pointB: { x: 0, y: -(this.footWidth) / 2 },
-            stiffness: 1
-        });
+
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth / 2), this.footWidth, this.footWidth);
-        this.foot2Conn = Matter.Constraint.create({
-            bodyA: this.body,
-            bodyB: this.foot2,
-            //length: 0,
-            pointA: {
-                x: (landerWidth / 2.5),
-                y: (landerWidth / (1.5 * 2))
-            },
-            pointB: { x: 0, y: -(this.footWidth) / 2 },
-            stiffness: 1
-        });
 
         this.L = Matter.Body.create();
 
