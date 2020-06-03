@@ -9,16 +9,18 @@ class Lander {
 
         this.footWidth = footWidth * landerWidth;
         this.rayLength = 300;
-        this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth / 2), this.footWidth, this.footWidth);
+        let footOptions = {
+            restitution: 1
+        }
+        this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2, footOptions);
+        this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2, footOptions);
 
-        this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth / 2), this.footWidth, this.footWidth);
-
-        this.L = Matter.Body.create();
+        this.L = Matter.Body.create({restitution: 0.3});
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
 
         //let bodies = [this.body, this.foot1, this.foot1Conn, this.foot2, this.foot2Conn]
-        
+
         let bodies = [this.L]
 
         World.add(engine.world, bodies);

@@ -19,7 +19,7 @@ class Moon {
 
         //let pos = Matter.Vertices.centre(vertices);
 
-        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground' });
+        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground', restitution: 1 });
 
 
         //find difference from ground's first vertex and 0
@@ -35,14 +35,14 @@ class Moon {
 
 
         let bodies = [this.ground];
-        
+
 
         this.engine.world.gravity.y = moonGravity;
         World.add(this.engine.world, bodies);
         Engine.run(this.engine);
     }
 
-    update(){
+    update() {
         this.landers.forEach(l => l.update(this.ground))
     }
 
