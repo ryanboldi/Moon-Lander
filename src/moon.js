@@ -37,7 +37,7 @@ class Moon {
         let bodies = [this.ground];
         this.landers.forEach(l => bodies.push(l.body));
 
-        this.engine.world.gravity.y = 0.3;
+        this.engine.world.gravity.y = moonGravity;
         World.add(this.engine.world, bodies);
         Engine.run(this.engine);
     }
