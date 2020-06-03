@@ -5,7 +5,7 @@ class Lander {
                 label: "lander"
             });
 
-        this.drawEyes = false;
+        this.drawEyes = true;
 
         this.footWidth = footWidth * landerWidth;
         this.rayLength = 300;
@@ -37,7 +37,7 @@ class Lander {
 
         for (let i = 0; i < rayCount; i++) {
             let ray = createVector(-this.rayLength, 0);
-            this.rays[i] = ray.rotate(this.body.angle - startAngle - (rayDif * i));
+            this.rays[i] = ray.rotate(this.L.angle - startAngle - (rayDif * i));
         }
 
         let rayValues = [];
@@ -71,6 +71,7 @@ class Lander {
             sight.push(map(Matter.Vector.magnitude(distVec), 0, this.rayLength, 1, 0)); //length of distanceVec    
         }
         //console.log(sight);
+        this.sight = sight
     }
 
 
@@ -109,7 +110,7 @@ class Lander {
             //y: (landerWidth / (1.5 * 2))
             Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y })
         }
-        console.log(this.body.position)
+        //console.log(this.body.position)
     }
 
 
@@ -127,9 +128,16 @@ class Lander {
             //draw rays
             stroke(0);
             for (let i = 0; i < this.rays.length; i++) {
-                line(this.ray_x, this.ray_y, this.ray_x + this.rays[i].x, this.ray_y + this.rays[i].y);
+                let norm = this.rays[i].normalize();
+                norm.mult((1 - this.sight[i]) * this.rayLength);
+                //this.sight[i] = map(this.sight[i], 0, 1, 1, 0);
+
+                //let vec = this.rays[i].mult(this.sight[i]) * 100;
+                //console.log(vec);
+                line(this.ray_x, this.ray_y, this.ray_x + norm.x, this.ray_y + norm.y);
             }
         }
+        noStroke();
 
         fill(255, 0, 0);
         beginShape();

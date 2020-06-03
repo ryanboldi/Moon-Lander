@@ -1,5 +1,5 @@
-const WIDTH = 800,
-    HEIGHT = 600,
+const WIDTH = 1000,
+    HEIGHT = 800,
     groundFrac = 6, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
     groundSections = 12, // good to make width divisble by this.
     groundHeightVariance = 100; //(-variance -> variance)
