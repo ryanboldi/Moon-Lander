@@ -1,6 +1,6 @@
 class Lander {
     constructor(engine) {
-        this.body = Bodies.trapezoid(400, 50, landerWidth, landerWidth / 1.5, -0.5,
+        this.body = Bodies.trapezoid(random(200, 400), 50, landerWidth, landerWidth / 1.5, -0.5,
             {
                 label: "lander"
             });
@@ -9,13 +9,11 @@ class Lander {
 
         this.footWidth = footWidth * landerWidth;
         this.rayLength = 300;
-        let footOptions = {
-            restitution: 1
-        }
-        this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2, footOptions);
-        this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2, footOptions);
 
-        this.L = Matter.Body.create({restitution: 0.3});
+        this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
+        this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
+
+        this.L = Matter.Body.create({ restitution: 0.5 });
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
 
