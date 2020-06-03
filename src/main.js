@@ -5,6 +5,8 @@ const WIDTH = 800,
     groundHeightVariance = 100; //(-variance -> variance)
 
 const landerWidth = 15;
+const landerRotAngle = 0.01; // radians per frame
+const landerBoosterStrength = 0.00001
 
 let Engine = Matter.Engine,
     World = Matter.World,
@@ -25,8 +27,24 @@ function draw() {
     background(140);
     m.update();
     m.draw();
+
+    let left = 0
+    let right = 0
+    let up = 0
+    //TEMP TESTING
+    if (keyIsDown(LEFT_ARROW)){
+        left = 1
+    }
+    if (keyIsDown(RIGHT_ARROW)){
+        right = 1
+    }
+    if (keyIsDown(UP_ARROW)){
+        up = 1
+    }
+    m.landers[0].Move([left, right, up])
 }
 
 function normalise(num, in_min, in_max, out_min, out_max) {
     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
+

@@ -17,7 +17,7 @@ class Moon {
 
         vertices.push({ x: WIDTH + 10, y: HEIGHT });//ENDING VERTEX INCLUDED (offscreen on other side)
 
-        let pos = Matter.Vertices.centre(vertices);
+        //let pos = Matter.Vertices.centre(vertices);
 
         this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground' });
 
@@ -37,6 +37,7 @@ class Moon {
         let bodies = [this.ground];
         this.landers.forEach(l => bodies.push(l.body));
 
+        this.engine.world.gravity.y = 0.3;
         World.add(this.engine.world, bodies);
         Engine.run(this.engine);
     }
