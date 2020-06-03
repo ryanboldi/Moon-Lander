@@ -26,7 +26,7 @@ class Lander {
         let rayValues = [];
         //raycast all the rays, get their collisions
         for (let i = 0; i < this.rays.length; i++) {
-            console.log(ground)
+            //console.log(ground)
             let start = { x: this.ray_x, y: this.ray_y }
             let end = { x: this.rays[i].x + this.ray_x, y: this.rays[i].y + this.ray_y }
             //console.log(start, end);
@@ -38,13 +38,12 @@ class Lander {
         //rayValues is an array of arrays. rayValue[i] is the ith eyes' colisions, and rayvalue[i][j] is the ith eye's jth colision.
         //get closest collision of all eyes, and store that as the only colision
         for (let i = 0; i < rayValues.length; i++) {
-            if (typeof(rayValues[0][0]) != "undefined") {
-                eyeCols.push(rayValues[0][0].point);
+            if (typeof(rayValues[i][0]) != "undefined") {
+                eyeCols.push(rayValues[i][0].point);
             } else{
                 eyeCols.push(0);
             }
         }
-
         console.log(eyeCols);
     }
 
