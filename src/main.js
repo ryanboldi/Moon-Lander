@@ -6,7 +6,7 @@ const WIDTH = 800,
 
 const landerWidth = 15;
 const landerRotAngle = 0.01; // radians per frame
-const landerBoosterStrength = 0.00001
+const landerBoosterStrength = 0.0001
 
 let Engine = Matter.Engine,
     World = Matter.World,

@@ -78,7 +78,7 @@ class Lander {
             stroke(100, 10, 0);
             let force = createVector(-100, 0);
             force.normalize();
-            force.mult(0.00005); //make it a specific length
+            force.mult(landerBoosterStrength); //make it a specific length
             force.rotate(this.body.angle + (Math.PI / 2));
             line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
             Matter.Body.applyForce(this.body, this.body.position, { x: force.x, y: force.y })
