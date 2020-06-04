@@ -1,6 +1,6 @@
 class Lander {
     constructor(engine) {
-        this.body = Bodies.trapezoid(random(200, 400), 50, landerWidth, landerWidth / 1.5, -0.5,
+        this.body = Bodies.trapezoid(400, 50, landerWidth, landerWidth / 1.5, -0.5,
             {
                 label: "lander"
             });
@@ -23,6 +23,7 @@ class Lander {
 
         World.add(engine.world, bodies);
 
+        Matter.Body.applyForce(this.L, this.body.position, { x: random([-0.005, 0.005]), y: 0 })
 
         this.alive = true;
     }
@@ -32,8 +33,8 @@ class Lander {
         //if the lander's body hits any part of the ground:
         for (let i = 1; i < ground.parts.length; i++) {
             console.log(Matter.SAT.collides(ground.parts[i], this.body));
-            if (Matter.SAT.collides(ground.parts[i], this.body).collided){
-                this.alive = false;   
+            if (Matter.SAT.collides(ground.parts[i], this.body).collided) {
+                this.alive = false;
             }
         }
 
@@ -168,8 +169,8 @@ class Lander {
 
     draw() {
         //draw the lander
-        if (!this.alive){
-            fill(255,0,0);
+        if (!this.alive) {
+            fill(255, 0, 0);
         } else {
             fill(255);
         }

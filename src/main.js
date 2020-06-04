@@ -7,8 +7,8 @@ const WIDTH = 1000,
 const landerWidth = 30;
 const footWidth = 0.1; //* landerWidth
 const landerRotAngle = 0.01; // radians per frame
-const landerBoosterStrength = 0.000375 //* lander mass
-const moonGravity = 0.35;
+const landerBoosterStrength = 0.000275 //* lander mass
+const moonGravity = 0.3;
 
 let Engine = Matter.Engine,
     World = Matter.World,
