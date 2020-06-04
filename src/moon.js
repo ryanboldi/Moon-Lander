@@ -19,14 +19,14 @@ class Moon {
 
         //let pos = Matter.Vertices.centre(vertices);
 
-        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground', restitution: 1 });
+        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground', restitution: 1});
 
 
         //find difference from ground's first vertex and 0
         let difX = (this.ground.bounds.min.x - vertices[0].x); // need to move this much to the left.
-        console.log(difX);
+        //console.log(difX);
         let difY = (this.ground.bounds.max.y - vertices[0].y); //need to move this much down
-        console.log(difY);
+        //console.log(difY);
 
         //let newPos = Matter.Vertices.centre(Matter.Vertices.hull(this.ground.vertices));
 

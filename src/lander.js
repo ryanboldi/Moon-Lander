@@ -22,9 +22,28 @@ class Lander {
         let bodies = [this.L]
 
         World.add(engine.world, bodies);
+
+
+        this.alive = true;
     }
 
     update(ground) {
+        //----------CHECKS FOR DEATH
+        //if the lander's body hits any part of the ground:
+        for (let i = 1; i < ground.parts.length; i++) {
+            console.log(Matter.SAT.collides(ground.parts[i], this.body));
+            if (Matter.SAT.collides(ground.parts[i], this.body).collided){
+                this.alive = false;   
+            }
+        }
+
+
+
+
+
+
+        //-----------------------------------------------------------
+        //gets sight of creature
         this.ray_x = this.body.position.x
         this.ray_y = this.body.position.y
 
@@ -48,8 +67,6 @@ class Lander {
             let end = { x: this.rays[i].x + this.ray_x, y: this.rays[i].y + this.ray_y }
             //console.log(start, end);
             let col = raycast(ground.parts, start, end, true);
-            console.log(i)
-            console.log(col);
             rayValues.push(col);
         }
 
@@ -65,7 +82,7 @@ class Lander {
                     //console.log(`ray ${i}, ${j} -> ${rayValues[i][j].point}`)
                     let dist = Matter.Vector.magnitude(Matter.Vector.create(rayValues[i][j].point.x - this.ray_x, rayValues[i][j].point.y - this.ray_y));
                     //console.log(`dist: ${dist}`);
-                    if (dist < closestDist){
+                    if (dist < closestDist) {
                         closest = j;
                         closestDist = dist
                     }
@@ -87,6 +104,25 @@ class Lander {
         }
         //console.log(sight);
         this.sight = sight
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 
 
@@ -132,7 +168,11 @@ class Lander {
 
     draw() {
         //draw the lander
-        fill(255);
+        if (!this.alive){
+            fill(255,0,0);
+        } else {
+            fill(255);
+        }
         beginShape();
         this.body.vertices.forEach(v => {
             vertex(v.x, v.y);
