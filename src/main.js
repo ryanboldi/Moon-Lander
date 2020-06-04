@@ -2,7 +2,7 @@ const WIDTH = 1000,
     HEIGHT = 800,
     groundFrac = 6, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
     groundSections = 12, // good to make width divisble by this.
-    groundHeightVariance = 100; //(-variance -> variance)
+    groundHeightVariance = 170; //(-variance -> variance)
 
 const landerWidth = 30;
 const footWidth = 0.1; //* landerWidth
@@ -41,6 +41,9 @@ function draw() {
     }
     if (keyIsDown(UP_ARROW)){
         up = 1
+    }
+    if (keyIsDown(DOWN_ARROW)){
+        noLoop();
     }
     m.landers[0].Move([left, right, up])
 }

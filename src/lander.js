@@ -47,7 +47,9 @@ class Lander {
             let start = { x: this.ray_x, y: this.ray_y }
             let end = { x: this.rays[i].x + this.ray_x, y: this.rays[i].y + this.ray_y }
             //console.log(start, end);
-            let col = raycast([ground], start, end, true);
+            let col = raycast(ground.parts, start, end, true);
+            console.log(i)
+            console.log(col);
             rayValues.push(col);
         }
 
@@ -56,7 +58,20 @@ class Lander {
         //get closest collision of all eyes, and store that as the only colision
         for (let i = 0; i < rayValues.length; i++) {
             if (typeof (rayValues[i][0]) != "undefined") {
-                eyeCols.push(rayValues[i][0].point);
+                let closest = 0;
+                let closestDist = float("Infinity");
+                //console.log(`how many collisions: ${rayValues[i].length}`)
+                for (let j = 0; j < rayValues[i].length; j++) {
+                    //console.log(`ray ${i}, ${j} -> ${rayValues[i][j].point}`)
+                    let dist = Matter.Vector.magnitude(Matter.Vector.create(rayValues[i][j].point.x - this.ray_x, rayValues[i][j].point.y - this.ray_y));
+                    //console.log(`dist: ${dist}`);
+                    if (dist < closestDist){
+                        closest = j;
+                        closestDist = dist
+                    }
+                    //console.log(`closest = ${closest}`)
+                }
+                eyeCols.push(rayValues[i][closest].point);
             } else {
                 //eyeCols.push(this.rayLength);
                 eyeCols.push({ x: this.rays[i].x + this.ray_x, y: this.rays[i].y + this.ray_y })
