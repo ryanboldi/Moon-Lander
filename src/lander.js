@@ -127,38 +127,13 @@ class Lander {
         //get difference between ground heading and lander angle
         console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
         
-        this.groundAngle = Math.abs(dir - this.L.angle)
+        this.groundAngle = Math.abs(dir - this.L.angle);
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        //if touchdown == false - > check if lander touches floor with feet for the first time and is still alive, touchdown = true
+        //if touchdown just turned true, get angle between ground and floor and store it for fitness evaluation
+        //when time elapsed happens, if lander has both feet on the ground and is still alive, fitness = 10
+        // if lander has died or is still in the air when the time elapsed happens, fitness = PI - this.groundAngle
 
 
 
