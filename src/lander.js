@@ -26,6 +26,8 @@ class Lander {
         Matter.Body.applyForce(this.L, this.body.position, { x: random([-0.005, 0.005]), y: 0 })
 
         this.alive = true;
+
+        this.touchdown = false;
     }
 
     update(ground) {
@@ -116,16 +118,46 @@ class Lander {
         let normalRayStart = { x: this.ray_x, y: this.ray_y }
         let normalRay = raycast(ground.parts, normalRayStart, normalRayEnd, true);
 
-        stroke(255);
-        line(normalRayStart.x, normalRayStart.y, normalRayEnd.x, normalRayEnd.y); 
-
+        //stroke(255);
+        //line(normalRayStart.x, normalRayStart.y, normalRayEnd.x, normalRayEnd.y); 
         //closest collision's normal vector
         let groundNorm = (normalRay[0].normal)
         //make normal vector, rotate by 90
         let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI/2;
         //get difference between ground heading and lander angle
-        console.log(`Dif between ground and lander: ${dir - this.L.angle}`)
-        this.groundAngle = dir - this.L.angle
+        console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
+        
+        this.groundAngle = Math.abs(dir - this.L.angle)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
