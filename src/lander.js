@@ -32,16 +32,18 @@ class Lander {
         //----------CHECKS FOR DEATH
         //if the lander's body hits any part of the ground:
         for (let i = 1; i < ground.parts.length; i++) {
-            console.log(Matter.SAT.collides(ground.parts[i], this.body));
             if (Matter.SAT.collides(ground.parts[i], this.body).collided) {
                 this.alive = false;
             }
         }
 
-
-
-
-
+        //if creature leaves bounds, it dies
+        if (this.body.position.x > WIDTH || this.body.position.x < 0){
+            this.alive = false;
+        }
+        if (this.body.position.y > HEIGHT || this.body.position.y < 0){
+            this.alive = false;
+        }
 
         //-----------------------------------------------------------
         //gets sight of creature
@@ -106,6 +108,49 @@ class Lander {
         //console.log(sight);
         this.sight = sight
 
+
+        //try to find angle of the ground directly underneath the player. 
+        //send a raycast straight down, and find the normal of the closest colision
+
+        let normalRayEnd = { x: this.ray_x, y: HEIGHT }
+        let normalRayStart = { x: this.ray_x, y: this.ray_y }
+        let normalRay = raycast(ground.parts, normalRayStart, normalRayEnd, true);
+
+        stroke(255);
+        line(normalRayStart.x, normalRayStart.y, normalRayEnd.x, normalRayEnd.y); 
+
+        //closest collision's normal vector
+        let groundNorm = (normalRay[0].normal)
+        let dir = createVector(groundNorm.x, groundNorm.y).heading();
+
+        //get difference between ground heading and lander angle
+        //this.body.angle is relative to its starting orientation. we want its real value
+       
+       
+        //get point that is exactly to the left of lander
+
+        let leftRay = createVector(-100, 0);
+        leftRay.rotate(this.L.angle);
+        let leftPoint = createVector(leftRay.x + this.ray_x, leftRay.y + this.ray_y);
+
+        stroke(255);
+        line(this.ray_x, this.ray_y, leftRay.x + this.ray_x, leftRay.y + this.ray_y); 
+
+        let rightRay = createVector(100, 0);
+        rightRay.rotate(this.L.angle);
+        let rightPoint = createVector(rightRay.x + this.ray_x, rightRay.y + this.ray_y);
+
+        stroke(255);
+        line(this.ray_x, this.ray_y, rightRay.x + this.ray_x, rightRay.y + this.ray_y); 
+
+        let normalVector = createVector(rightPoint.x - leftPoint.x, rightPoint.y - leftPoint.y);
+
+        stroke(0);
+        line(leftPoint.x, leftPoint.y, leftPoint.x + normalVector.x, leftPoint.y + normalVector.y); 
+
+        console.log(`this.body.angle: ${this.body.angle}`);
+        console.log(`this.L.angle: ${this.L.angle}`);
+        console.log(`normal Angle: ${normalVector.heading()}`)
 
 
 
