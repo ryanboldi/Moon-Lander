@@ -121,50 +121,11 @@ class Lander {
 
         //closest collision's normal vector
         let groundNorm = (normalRay[0].normal)
-        let dir = createVector(groundNorm.x, groundNorm.y).heading();
-
+        //make normal vector, rotate by 90
+        let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI/2;
         //get difference between ground heading and lander angle
-        //this.body.angle is relative to its starting orientation. we want its real value
-       
-       
-        //get point that is exactly to the left of lander
-
-        let leftRay = createVector(-100, 0);
-        leftRay.rotate(this.L.angle);
-        let leftPoint = createVector(leftRay.x + this.ray_x, leftRay.y + this.ray_y);
-
-        stroke(255);
-        line(this.ray_x, this.ray_y, leftRay.x + this.ray_x, leftRay.y + this.ray_y); 
-
-        let rightRay = createVector(100, 0);
-        rightRay.rotate(this.L.angle);
-        let rightPoint = createVector(rightRay.x + this.ray_x, rightRay.y + this.ray_y);
-
-        stroke(255);
-        line(this.ray_x, this.ray_y, rightRay.x + this.ray_x, rightRay.y + this.ray_y); 
-
-        let normalVector = createVector(rightPoint.x - leftPoint.x, rightPoint.y - leftPoint.y);
-
-        stroke(0);
-        line(leftPoint.x, leftPoint.y, leftPoint.x + normalVector.x, leftPoint.y + normalVector.y); 
-
-        console.log(`this.body.angle: ${this.body.angle}`);
-        console.log(`this.L.angle: ${this.L.angle}`);
-        console.log(`normal Angle: ${normalVector.heading()}`)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        console.log(`Dif between ground and lander: ${dir - this.L.angle}`)
+        this.groundAngle = dir - this.L.angle
 
 
 
