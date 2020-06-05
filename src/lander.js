@@ -52,10 +52,6 @@ class Lander {
         this.ray_x = this.body.position.x
         this.ray_y = this.body.position.y
 
-        let rayCount = 9;
-        let angleToCover = Math.PI / 2;
-        let rayDif = angleToCover / 9;
-        let startAngle = (Math.PI - angleToCover) / 2;
 
         this.rays = [];
 
@@ -125,7 +121,7 @@ class Lander {
         //make normal vector, rotate by 90
         let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI/2;
         //get difference between ground heading and lander angle
-        console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
+        //console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
         
         this.groundAngle = Math.abs(dir - this.L.angle);
 

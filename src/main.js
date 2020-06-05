@@ -10,6 +10,11 @@ const landerRotAngle = 0.01; // radians per frame
 const landerBoosterStrength = 0.000275 //* lander mass
 const moonGravity = 0.3;
 
+let rayCount = 9;
+let angleToCover = Math.PI / 2;
+let rayDif = angleToCover / rayCount;
+let startAngle = (Math.PI - angleToCover) / 2;
+
 let Engine = Matter.Engine,
     World = Matter.World,
     Composite = Matter.Composite,
