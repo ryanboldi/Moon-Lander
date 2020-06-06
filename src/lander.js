@@ -40,10 +40,10 @@ class Lander {
         }
 
         //if creature leaves bounds, it dies
-        if (this.body.position.x > WIDTH || this.body.position.x < 0){
+        if (this.body.bounds.max.x > WIDTH || this.body.bounds.min.x < 0){
             this.alive = false;
         }
-        if (this.body.position.y > HEIGHT || this.body.position.y < 0){
+        if (this.body.bounds.max.y > HEIGHT || this.body.bounds.min.y < 0){
             this.alive = false;
         }
 

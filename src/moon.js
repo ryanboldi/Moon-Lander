@@ -1,5 +1,5 @@
 class Moon {
-    constructor() {
+    constructor(genomeArray) {
         this.engine = Engine.create();
         this.landers = [new Lander(this.engine)];
 

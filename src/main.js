@@ -27,6 +27,7 @@ let m;
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     m = new Moon();
+    startEvaluation();
 }
 
 function draw() {
