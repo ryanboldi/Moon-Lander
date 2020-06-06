@@ -52,7 +52,7 @@ function draw() {
     if (keyIsDown(DOWN_ARROW)){
         noLoop();
     }
-    m.landers[0].Move([left, right, up])
+    m.landers[0].Move([left, right, up]);
 }
 
 function normalise(num, in_min, in_max, out_min, out_max) {

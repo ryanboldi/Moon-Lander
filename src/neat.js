@@ -42,11 +42,20 @@ function initNeat(){
 
 function startEvaluation(){
     //make a new world
-    m = new Moon(neat.population);
-    players = [];
-
     highestScore = 0;
+    m = new Moon(neat.population);
+}
 
+function endEvaluation(){
+    console.log('Generation:', neat.generation, '- average score:', Math.round(neat.getAverage()));
+    console.log('Fittest score:', Math.round(neat.getFittest().score));
+    //EVALUATE ALL THE CREATURES --
+    //here we need to find the genome.score for every lander based on varius things we've stored during the run
+    //-------------------------------
+    
+    neat.sort();
 
+    let newPopulation = [];
+    
 
 }

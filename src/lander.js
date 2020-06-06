@@ -27,8 +27,8 @@ class Lander {
         Matter.Body.applyForce(this.L, this.body.position, { x: random([-0.005, 0.005]), y: 0 })
 
         this.alive = true;
-
         this.touchdown = false;
+        this.groundAngle = Math.PI;
     }
 
     update(ground) {
@@ -107,38 +107,82 @@ class Lander {
         //console.log(sight);
         this.sight = sight
 
-
-        //try to find angle of the ground directly underneath the player. 
-        //send a raycast straight down, and find the normal of the closest colision
-
-        let normalRayEnd = { x: this.ray_x, y: HEIGHT }
-        let normalRayStart = { x: this.ray_x, y: this.ray_y }
-        let normalRay = raycast(ground.parts, normalRayStart, normalRayEnd, true);
-
-        //stroke(255);
-        //line(normalRayStart.x, normalRayStart.y, normalRayEnd.x, normalRayEnd.y); 
-        //closest collision's normal vector
-        let groundNorm;
-        if (normalRay[0]) {
-            groundNorm = (normalRay[0].normal);
-        }   else{
-            groundNorm = {x: 0, y:0}
-        };
-        //make normal vector, rotate by 90
-        let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI / 2;
-        //get difference between ground heading and lander angle
-        //console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
-
-        this.groundAngle = Math.abs(dir - this.L.angle);
-
-
         //if touchdown == false - > check if lander touches floor with feet for the first time and is still alive, touchdown = true
         //if touchdown just turned true, get angle between ground and floor and store it for fitness evaluation
-        //when time elapsed happens, if lander has both feet on the ground and is still alive, fitness = 10
-        // if lander has died or is still in the air when the time elapsed happens, fitness = PI - this.groundAngle
 
 
+        if (this.touchdown == false) {
+            if (this.alive) {
+                //check for touchdown (one or both feet colided)
+                let f1 = false;
+                let f2 = false;
+                for (let i = 1; i < ground.parts.length; i++) {
+                    if (Matter.SAT.collides(ground.parts[i], this.foot1).collided) {
+                        f1 = true;
+                    } if (Matter.SAT.collides(ground.parts[i], this.foot2).collided) {
+                        f2 = true;
+                    }
+                }
 
+                if (f1 || f2) {
+                    this.touchdown = true;
+                    //try to find angle of the ground directly underneath the player. 
+                    //send a raycast straight down, and find the normal of the closest colision
+
+                    let normalRayEnd = { x: this.ray_x, y: HEIGHT }
+                    let normalRayStart = { x: this.ray_x, y: this.ray_y }
+                    let normalRay = raycast(ground.parts, normalRayStart, normalRayEnd, true);
+
+                    //stroke(255);
+                    //line(normalRayStart.x, normalRayStart.y, normalRayEnd.x, normalRayEnd.y); 
+                    //closest collision's normal vector
+                    let groundNorm;
+                    if (normalRay[0]) {
+                        groundNorm = (normalRay[0].normal);
+                    } else {
+                        groundNorm = { x: 0, y: 0 }
+                    };
+                    //make normal vector, rotate by 90
+                    let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI / 2;
+                    //get difference between ground heading and lander angle
+                    //console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
+
+                    this.groundAngle = Math.abs(dir - this.L.angle);
+                }
+            }
+        }
+    }
+
+    //CALL THIS WHEN THE EVALUATION PERIOD IS FINISHED, WILL SET THIS.BRAIN.SCORE
+    Evaluate(ground){
+            //when time elapsed happens, if lander has both feet on the ground and is still alive, fitness = 10
+            // if lander has died or is still in the air when the time elapsed happens, fitness = PI - this.groundAngle
+            let f1 = false;
+            let f2 = false;
+            for (let i = 1; i < ground.parts.length; i++) {
+                if (Matter.SAT.collides(ground.parts[i], this.foot1).collided) {
+                    f1 = true;
+                } if (Matter.SAT.collides(ground.parts[i], this.foot2).collided) {
+                    f2 = true;
+                }
+            }
+
+            console.log(`f1: ${f1}, f2: ${f2}`);
+            if (this.alive && f1 && f2){
+                //alive and landed safetly, fitness = 10;
+                this.brain.score = 10;
+            } else if (this.alive && ! (f1 && f2)){
+                //alive but hasn't landed fully
+                this.brain.score = Math.PI - this.groundAngle;
+            } else if (!this.alive){
+                //died (crashed)
+                this.brain.score = Math.PI - this.groundAngle;
+            } else{
+                //this shouldn't happen, but just in case
+                this.brain.score = Math.PI - this.groundAngle;
+            }
+
+            console.log(this.brain.score);
     }
 
 
