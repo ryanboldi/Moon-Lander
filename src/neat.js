@@ -6,7 +6,7 @@ let Architect = neataptic.Architect;
 //turn off warnings
 Config.warnings = false;
 
-let PLAYER_AMOUNT = 200;
+let PLAYER_AMOUNT = 30;
 let ITERATIONS = 500;
 let MUTATION_RATE = 0.3;
 let ELITISM = Math.round(0.1 * PLAYER_AMOUNT);
@@ -15,7 +15,7 @@ let neat;
 
 function initNeat(){
     neat = new Neat(
-        raycount + 2, 3,
+        rayCount + 2, 3,
         null,
         {
             mutation: [
@@ -42,13 +42,11 @@ function initNeat(){
 
 function startEvaluation(){
     //make a new world
-    let m = new Moon();
+    m = new Moon(neat.population);
     players = [];
 
     highestScore = 0;
 
-    genome = neat.population[genome];
-    console.log(genome);
 
 
 }

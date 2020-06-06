@@ -1,10 +1,14 @@
 class Moon {
     constructor(genomeArray) {
         this.engine = Engine.create();
-        this.landers = [new Lander(this.engine)];
+        this.landers = [];
+        for (let i = 0; i < genomeArray.length; i++){
+            this.landers.push(new Lander(genomeArray[i], this.engine));
+        }
+        console.log(this.landers);
 
         //let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
-        let vertices = [{ x: -10, y: HEIGHT }]
+        let vertices = [{ x: -10, y: HEIGHT }];
 
         let y = HEIGHT
         let x = -10;

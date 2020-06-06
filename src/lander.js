@@ -1,10 +1,10 @@
 class Lander {
-    constructor(engine) {
+    constructor(genome, engine) {
+        this.brain = genome;
         this.body = Bodies.trapezoid(400, 50, landerWidth, landerWidth / 1.5, -0.5,
             {
                 label: "lander"
             });
-
         this.drawEyes = true;
 
         this.footWidth = footWidth * landerWidth;
@@ -14,6 +14,7 @@ class Lander {
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
 
         this.L = Matter.Body.create({ restitution: 0.5 });
+        this.L.collisionFilter.group = -1;
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
 
@@ -40,10 +41,10 @@ class Lander {
         }
 
         //if creature leaves bounds, it dies
-        if (this.body.bounds.max.x > WIDTH || this.body.bounds.min.x < 0){
+        if (this.body.bounds.max.x > WIDTH || this.body.bounds.min.x < 0) {
             this.alive = false;
         }
-        if (this.body.bounds.max.y > HEIGHT || this.body.bounds.min.y < 0){
+        if (this.body.bounds.max.y > HEIGHT || this.body.bounds.min.y < 0) {
             this.alive = false;
         }
 
@@ -117,12 +118,17 @@ class Lander {
         //stroke(255);
         //line(normalRayStart.x, normalRayStart.y, normalRayEnd.x, normalRayEnd.y); 
         //closest collision's normal vector
-        let groundNorm = (normalRay[0].normal)
+        let groundNorm;
+        if (normalRay[0]) {
+            groundNorm = (normalRay[0].normal);
+        }   else{
+            groundNorm = {x: 0, y:0}
+        };
         //make normal vector, rotate by 90
-        let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI/2;
+        let dir = createVector(groundNorm.x, groundNorm.y).heading() + Math.PI / 2;
         //get difference between ground heading and lander angle
         //console.log(`Dif between ground and lander: ${Math.abs(dir - this.L.angle)}`)
-        
+
         this.groundAngle = Math.abs(dir - this.L.angle);
 
 

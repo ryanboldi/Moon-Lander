@@ -26,7 +26,8 @@ let m;
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
-    m = new Moon();
+    //m = new Moon();
+    initNeat();
     startEvaluation();
 }
 
