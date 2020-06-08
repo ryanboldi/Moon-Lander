@@ -5,14 +5,15 @@ const WIDTH = 1000,
     groundHeightVariance = 170; //(-variance -> variance)
 
 const landerWidth = 30;
-const footWidth = 0.1; //* landerWidth
+const footWidth = 0.15; //* landerWidth
 const landerRotAngle = 0.01; // radians per frame
 const landerBoosterStrength = 0.000275 //* lander mass
 const moonGravity = 0.3;
 
 let frameCount = 0;
 
-let rayCount = 9;
+let rayCount = 18;
+let rayLength = 600;
 let angleToCover = Math.PI / 2;
 let rayDif = angleToCover / rayCount;
 let startAngle = (Math.PI - angleToCover) / 2;
@@ -62,8 +63,8 @@ function timeStep(){
     m.checkAlive();
 
     if (frameCount == ITERATIONS){
+        console.log("RAN OUT OF TIME");
         endEvaluation();
-        frameCount = 0;
     }
     frameCount++;
 }

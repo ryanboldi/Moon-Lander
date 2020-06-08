@@ -7,7 +7,7 @@ let Architect = neataptic.Architect;
 Config.warnings = false;
 
 let PLAYER_AMOUNT = 30;
-let ITERATIONS = 1000;
+let ITERATIONS = 2000;
 let MUTATION_RATE = 0.3;
 let ELITISM = Math.round(0.1 * PLAYER_AMOUNT);
 
@@ -48,6 +48,7 @@ function startEvaluation(){
 }
 
 function endEvaluation(){
+    frameCount = 0;
     m.Evaluate();
     console.log('Generation:', neat.generation, '- average score:', Math.round(neat.getAverage()));
     console.log('Fittest score:', Math.round(neat.getFittest().score));

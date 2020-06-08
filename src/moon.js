@@ -75,6 +75,7 @@ class Moon {
             }
         });
         if(!alive){
+            console.log("ALL DIED");
             endEvaluation();
         }
     }

@@ -5,10 +5,10 @@ class Lander {
             {
                 label: "lander"
             });
-        this.drawEyes = false;
+        this.drawEyes = true;
 
         this.footWidth = footWidth * landerWidth;
-        this.rayLength = 300;
+        this.rayLength = rayLength;
 
         this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
