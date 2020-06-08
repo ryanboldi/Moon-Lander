@@ -38,8 +38,8 @@ function setup() {
 
 function draw() {
     if (training) {
-        for (let i = 0; i < 10; i++) {
-            timeStep(true);
+        for (let i = 0; i < 1; i++) {
+            timeStep(false);
         }
     }
 
