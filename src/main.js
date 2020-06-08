@@ -10,6 +10,8 @@ const landerRotAngle = 0.01; // radians per frame
 const landerBoosterStrength = 0.000275 //* lander mass
 const moonGravity = 0.3;
 
+let frameCount = 0;
+
 let rayCount = 9;
 let angleToCover = Math.PI / 2;
 let rayDif = angleToCover / rayCount;
@@ -33,29 +35,39 @@ function setup() {
 
 function draw() {
     background(140);
+    timeStep();
+
+    // let left = 0
+    // let right = 0
+    // let up = 0
+    // //TEMP TESTING
+    // if (keyIsDown(LEFT_ARROW)){
+    //     left = 1
+    // }
+    // if (keyIsDown(RIGHT_ARROW)){
+    //     right = 1
+    // }
+    // if (keyIsDown(UP_ARROW)){
+    //     up = 1
+    // }
+    // if (keyIsDown(DOWN_ARROW)){
+    //     noLoop();
+    // }
+    // m.landers[0].Move([left, right, up]);
+}
+
+function timeStep(){
     m.update();
     m.draw();
+    m.checkAlive();
 
-    let left = 0
-    let right = 0
-    let up = 0
-    //TEMP TESTING
-    if (keyIsDown(LEFT_ARROW)){
-        left = 1
+    if (frameCount == ITERATIONS){
+        endEvaluation();
+        frameCount = 0;
     }
-    if (keyIsDown(RIGHT_ARROW)){
-        right = 1
-    }
-    if (keyIsDown(UP_ARROW)){
-        up = 1
-    }
-    if (keyIsDown(DOWN_ARROW)){
-        noLoop();
-    }
-    m.landers[0].Move([left, right, up]);
+    frameCount++;
 }
 
 function normalise(num, in_min, in_max, out_min, out_max) {
     return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
 }
-

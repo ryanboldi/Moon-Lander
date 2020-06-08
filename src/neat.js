@@ -7,7 +7,7 @@ let Architect = neataptic.Architect;
 Config.warnings = false;
 
 let PLAYER_AMOUNT = 30;
-let ITERATIONS = 500;
+let ITERATIONS = 1000;
 let MUTATION_RATE = 0.3;
 let ELITISM = Math.round(0.1 * PLAYER_AMOUNT);
 
@@ -15,7 +15,7 @@ let neat;
 
 function initNeat(){
     neat = new Neat(
-        rayCount + 2, 3,
+        rayCount + 4, 3,
         null,
         {
             mutation: [
@@ -44,9 +44,11 @@ function startEvaluation(){
     //make a new world
     highestScore = 0;
     m = new Moon(neat.population);
+    neat.mutate();
 }
 
 function endEvaluation(){
+    m.Evaluate();
     console.log('Generation:', neat.generation, '- average score:', Math.round(neat.getAverage()));
     console.log('Fittest score:', Math.round(neat.getFittest().score));
     //EVALUATE ALL THE CREATURES --
@@ -56,6 +58,21 @@ function endEvaluation(){
     neat.sort();
 
     let newPopulation = [];
+
+    //elitism
+    for (let i = 0; i < neat.elitism; i++){
+        newPopulation.push(neat.population[i]);
+    }
+
+    //breed new population
+    for(let i = 0; i < neat.popsize - neat.elitism; i++){
+        newPopulation.push(neat.getOffspring());
+    }
+
+    neat.population = newPopulation;
+    neat.mutate();
+    neat.generation++;
+    startEvaluation();
     
 
 }

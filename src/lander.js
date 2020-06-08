@@ -1,11 +1,11 @@
 class Lander {
     constructor(genome, engine) {
         this.brain = genome;
-        this.body = Bodies.trapezoid(400, 50, landerWidth, landerWidth / 1.5, -0.5,
+        this.body = Bodies.trapezoid(random(200, 400), 50, landerWidth, landerWidth / 1.5, -0.5,
             {
                 label: "lander"
             });
-        this.drawEyes = true;
+        this.drawEyes = false;
 
         this.footWidth = footWidth * landerWidth;
         this.rayLength = 300;
@@ -24,11 +24,12 @@ class Lander {
 
         World.add(engine.world, bodies);
 
-        Matter.Body.applyForce(this.L, this.body.position, { x: random([-0.005, 0.005]), y: 0 })
+        Matter.Body.applyForce(this.L, this.body.position, { x: random(-0.005, 0.005), y: 0 })
 
         this.alive = true;
         this.touchdown = false;
         this.groundAngle = Math.PI;
+        this.fitness = 0;
     }
 
     update(ground) {
@@ -151,38 +152,52 @@ class Lander {
                 }
             }
         }
+        //get inputs
+        let inputs = deepcopy(this.sight);
+        inputs.push(map(this.L.velocity.x, -5, 5, -1, 1));
+        inputs.push(map(this.L.velocity.y, -5, 5, -1, 1));
+        inputs.push(map(this.L.position.x, 0, WIDTH, -1, 1));
+        inputs.push(map(this.L.position.y, 0, HEIGHT, -1, 1));
+
+        let outputs = this.brain.activate(inputs);
+        this.Move(outputs);
     }
 
     //CALL THIS WHEN THE EVALUATION PERIOD IS FINISHED, WILL SET THIS.BRAIN.SCORE
-    Evaluate(ground){
-            //when time elapsed happens, if lander has both feet on the ground and is still alive, fitness = 10
-            // if lander has died or is still in the air when the time elapsed happens, fitness = PI - this.groundAngle
-            let f1 = false;
-            let f2 = false;
-            for (let i = 1; i < ground.parts.length; i++) {
-                if (Matter.SAT.collides(ground.parts[i], this.foot1).collided) {
-                    f1 = true;
-                } if (Matter.SAT.collides(ground.parts[i], this.foot2).collided) {
-                    f2 = true;
-                }
+    Evaluate(ground) {
+        //when time elapsed happens, if lander has both feet on the ground and is still alive, fitness = 10
+        // if lander has died or is still in the air when the time elapsed happens, fitness = PI - this.groundAngle
+        let f1 = false;
+        let f2 = false;
+        for (let i = 1; i < ground.parts.length; i++) {
+            if (Matter.SAT.collides(ground.parts[i], this.foot1).collided) {
+                f1 = true;
+            } if (Matter.SAT.collides(ground.parts[i], this.foot2).collided) {
+                f2 = true;
             }
+        }
 
-            console.log(`f1: ${f1}, f2: ${f2}`);
-            if (this.alive && f1 && f2){
-                //alive and landed safetly, fitness = 10;
-                this.brain.score = 10;
-            } else if (this.alive && ! (f1 && f2)){
-                //alive but hasn't landed fully
-                this.brain.score = Math.PI - this.groundAngle;
-            } else if (!this.alive){
-                //died (crashed)
-                this.brain.score = Math.PI - this.groundAngle;
-            } else{
-                //this shouldn't happen, but just in case
-                this.brain.score = Math.PI - this.groundAngle;
-            }
+        //console.log(`f1: ${f1}, f2: ${f2}`);
+        if (this.alive && f1 && f2) {
+            //alive and landed safetly, fitness = 10;
+            this.brain.score = 10;
+        } else if (this.alive && !(f1 && f2)) {
+            //alive but hasn't landed fully
+            this.brain.score = Math.PI - this.groundAngle;
+        } else if (!this.alive) {
+            //died (crashed)
+            this.brain.score = Math.PI - this.groundAngle;
+        } else {
+            //this shouldn't happen, but just in case
+            this.brain.score = Math.PI - this.groundAngle;
+        }
 
-            console.log(this.brain.score);
+        this.fitness = this.brain.score;
+        //console.log(this.brain.score);
+    }
+
+    fitness() {
+        return this.fitness
     }
 
 
@@ -210,13 +225,15 @@ class Lander {
             force.mult(landerBoosterStrength * (this.body.mass + (this.foot1.mass * 2))); //make it a specific length
             force.rotate(this.L.angle + (Math.PI / 2));
             //line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
-            fill(255, 165, 0);
-            noStroke();
-            push();
-            translate(this.body.position.x, this.body.position.y)
-            rotate(this.L.angle)
-            triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
-            pop();
+            if (this.alive) {
+                fill(255, 165, 0);
+                noStroke();
+                push();
+                translate(this.body.position.x, this.body.position.y)
+                rotate(this.L.angle)
+                triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+                pop();
+            }
             //x: (landerWidth / 2.5),
             //y: (landerWidth / (1.5 * 2))
             Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y })
@@ -227,56 +244,58 @@ class Lander {
 
 
     draw() {
-        //draw the lander
-        if (!this.alive) {
-            fill(255, 0, 0);
-        } else {
-            fill(255);
-        }
-        beginShape();
-        this.body.vertices.forEach(v => {
-            vertex(v.x, v.y);
-        });
-        endShape(CLOSE);
-
-        if (this.drawEyes) {
-            //draw rays
-            stroke(0);
-            for (let i = 0; i < this.rays.length; i++) {
-                let norm = this.rays[i].normalize();
-                norm.mult((1 - this.sight[i]) * this.rayLength);
-                //this.sight[i] = map(this.sight[i], 0, 1, 1, 0);
-
-                //let vec = this.rays[i].mult(this.sight[i]) * 100;
-                //console.log(vec);
-                line(this.ray_x, this.ray_y, this.ray_x + norm.x, this.ray_y + norm.y);
+        if (this.alive) {
+            //draw the lander
+            if (!this.alive) {
+                fill(255, 0, 0);
+            } else {
+                fill(255);
             }
+            beginShape();
+            this.body.vertices.forEach(v => {
+                vertex(v.x, v.y);
+            });
+            endShape(CLOSE);
+
+            if (this.drawEyes) {
+                //draw rays
+                stroke(0);
+                for (let i = 0; i < this.rays.length; i++) {
+                    let norm = this.rays[i].normalize();
+                    norm.mult((1 - this.sight[i]) * this.rayLength);
+                    //this.sight[i] = map(this.sight[i], 0, 1, 1, 0);
+
+                    //let vec = this.rays[i].mult(this.sight[i]) * 100;
+                    //console.log(vec);
+                    line(this.ray_x, this.ray_y, this.ray_x + norm.x, this.ray_y + norm.y);
+                }
+            }
+            noStroke();
+
+            fill(255, 0, 0);
+            beginShape();
+            this.foot1.vertices.forEach(v => {
+                vertex(v.x, v.y);
+            });
+            endShape(CLOSE);
+
+            fill(255, 0, 0);
+            beginShape();
+            this.foot2.vertices.forEach(v => {
+                vertex(v.x, v.y);
+            });
+            endShape(CLOSE);
+
+            // push()
+            // translate(this.body.position.x, this.body.position.y);
+            // rotate(this.body.angle);
+
+            // console.log(this.foot1Conn)
+            // stroke(255, 0, 0);
+            // strokeWeight(4);
+            // fill(255, 0, 0);
+            // point(0 - (landerWidth / 2.5), 0 + (landerWidth / (1.5 * 2)));
+            // pop()
         }
-        noStroke();
-
-        fill(255, 0, 0);
-        beginShape();
-        this.foot1.vertices.forEach(v => {
-            vertex(v.x, v.y);
-        });
-        endShape(CLOSE);
-
-        fill(255, 0, 0);
-        beginShape();
-        this.foot2.vertices.forEach(v => {
-            vertex(v.x, v.y);
-        });
-        endShape(CLOSE);
-
-        // push()
-        // translate(this.body.position.x, this.body.position.y);
-        // rotate(this.body.angle);
-
-        // console.log(this.foot1Conn)
-        // stroke(255, 0, 0);
-        // strokeWeight(4);
-        // fill(255, 0, 0);
-        // point(0 - (landerWidth / 2.5), 0 + (landerWidth / (1.5 * 2)));
-        // pop()
     }
 }

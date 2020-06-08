@@ -5,7 +5,7 @@ class Moon {
         for (let i = 0; i < genomeArray.length; i++){
             this.landers.push(new Lander(genomeArray[i], this.engine));
         }
-        console.log(this.landers);
+        //console.log(this.landers);
 
         //let vertices = [{ x: -20, y: HEIGHT + 20 }];//STARTING VERTEX INCLUDED (slightly offscreen)
         let vertices = [{ x: -10, y: HEIGHT }];
@@ -65,5 +65,22 @@ class Moon {
             }
         });
         this.landers.forEach(l => l.draw());
+    }
+
+    checkAlive(){
+        let alive = false;
+        this.landers.forEach(l => {
+            if (l.alive){
+                alive = true;
+            }
+        });
+        if(!alive){
+            endEvaluation();
+        }
+    }
+
+    Evaluate(){
+        this.landers.forEach(l => l.Evaluate(this.ground));
+        this.landers.forEach(l => console.log(l.brain.score));
     }
 }
