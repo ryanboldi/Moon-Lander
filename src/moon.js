@@ -39,15 +39,15 @@ class Moon {
 
 
         let bodies = [this.ground];
-
-
+        //console.log(this.engine);
         this.engine.world.gravity.y = moonGravity;
         World.add(this.engine.world, bodies);
         Engine.run(this.engine);
     }
 
     update() {
-        this.landers.forEach(l => l.update(this.ground))
+        this.landers.forEach(l => l.update(this.ground));
+        Engine.update(this.engine, 0.0001);
     }
 
     draw() {
@@ -82,6 +82,6 @@ class Moon {
 
     Evaluate(){
         this.landers.forEach(l => l.Evaluate(this.ground));
-        this.landers.forEach(l => console.log(l.brain.score));
+        //this.landers.forEach(l => console.log(l.brain.score));
     }
 }

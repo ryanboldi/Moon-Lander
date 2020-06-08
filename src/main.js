@@ -10,7 +10,7 @@ const landerRotAngle = 0.01; // radians per frame
 const landerBoosterStrength = 0.000275 //* lander mass
 const moonGravity = 0.3;
 
-let frameCount = 0;
+let framecount = 0;
 
 let rayCount = 18;
 let rayLength = 600;
@@ -27,6 +27,8 @@ let groundHeight = HEIGHT - Math.floor(HEIGHT / (groundFrac)); // actual height 
 
 let m;
 
+let training = true;
+
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     //m = new Moon();
@@ -35,8 +37,30 @@ function setup() {
 }
 
 function draw() {
-    background(140);
-    timeStep();
+    if (training) {
+        for (let i = 0; i < 10; i++) {
+            timeStep(true);
+        }
+    }
+
+    if (frameCount == 1000) {
+        training = false;
+    }
+
+    if (!training) {
+        timeStep(false)
+    }
+
+    //timeStep(true);
+
+    //global framecount
+    //if (frameCount > 5000){
+    //  timeStep(false);
+    //}else{
+    //  for (let i = 0; i < 100; i ++){
+    //    timeStep(true);
+    //}
+    //}
 
     // let left = 0
     // let right = 0
@@ -57,16 +81,19 @@ function draw() {
     // m.landers[0].Move([left, right, up]);
 }
 
-function timeStep(){
+function timeStep(pb = true) {
+    background(140);
     m.update();
-    m.draw();
+    if (pb == false) {
+        m.draw();
+    }
     m.checkAlive();
 
-    if (frameCount == ITERATIONS){
+    if (framecount == ITERATIONS) {
         console.log("RAN OUT OF TIME");
         endEvaluation();
     }
-    frameCount++;
+    framecount++;
 }
 
 function normalise(num, in_min, in_max, out_min, out_max) {

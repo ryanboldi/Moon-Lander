@@ -48,7 +48,7 @@ function startEvaluation(){
 }
 
 function endEvaluation(){
-    frameCount = 0;
+    framecount = 0;
     m.Evaluate();
     console.log('Generation:', neat.generation, '- average score:', Math.round(neat.getAverage()));
     console.log('Fittest score:', Math.round(neat.getFittest().score));

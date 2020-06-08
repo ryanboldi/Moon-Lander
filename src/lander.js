@@ -225,19 +225,13 @@ class Lander {
             force.mult(landerBoosterStrength * (this.body.mass + (this.foot1.mass * 2))); //make it a specific length
             force.rotate(this.L.angle + (Math.PI / 2));
             //line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
-            if (this.alive) {
-                fill(255, 165, 0);
-                noStroke();
-                push();
-                translate(this.body.position.x, this.body.position.y)
-                rotate(this.L.angle)
-                triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
-                pop();
-            }
+            this.booster = true;
+           
             //x: (landerWidth / 2.5),
             //y: (landerWidth / (1.5 * 2))
             Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y })
         }
+        if (up < 0.5) this.booster = false;
         //console.log(this.body.position)
     }
 
@@ -285,6 +279,16 @@ class Lander {
                 vertex(v.x, v.y);
             });
             endShape(CLOSE);
+
+            if (this.booster) {
+                fill(255, 165, 0);
+                noStroke();
+                push();
+                translate(this.body.position.x, this.body.position.y)
+                rotate(this.L.angle)
+                triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+                pop();
+            }
 
             // push()
             // translate(this.body.position.x, this.body.position.y);
