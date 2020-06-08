@@ -7,7 +7,8 @@ const WIDTH = 1000,
 const landerWidth = 30;
 const footWidth = 0.15; //* landerWidth
 const landerRotAngle = 0.01; // radians per frame
-const landerBoosterStrength = 0.000275 //* lander mass
+//const landerBoosterStrength = 0.000275 //* lander mass
+const landerBoosterStrength = 0.001;
 const moonGravity = 0.3;
 
 let framecount = 0;
@@ -62,23 +63,23 @@ function draw() {
     //}
     //}
 
-    // let left = 0
-    // let right = 0
-    // let up = 0
-    // //TEMP TESTING
-    // if (keyIsDown(LEFT_ARROW)){
-    //     left = 1
-    // }
-    // if (keyIsDown(RIGHT_ARROW)){
-    //     right = 1
-    // }
-    // if (keyIsDown(UP_ARROW)){
-    //     up = 1
-    // }
-    // if (keyIsDown(DOWN_ARROW)){
-    //     noLoop();
-    // }
-    // m.landers[0].Move([left, right, up]);
+    let left = 0
+    let right = 0
+    let up = 0
+    //TEMP TESTING
+    if (keyIsDown(LEFT_ARROW)){
+        left = 1
+    }
+    if (keyIsDown(RIGHT_ARROW)){
+        right = 1
+    }
+    if (keyIsDown(UP_ARROW)){
+        up = 1
+    }
+    if (keyIsDown(DOWN_ARROW)){
+        noLoop();
+    }
+    m.landers[0].Move([left, right, up]);
 }
 
 function timeStep(pb = true) {

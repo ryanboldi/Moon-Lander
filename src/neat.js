@@ -6,7 +6,7 @@ let Architect = neataptic.Architect;
 //turn off warnings
 Config.warnings = false;
 
-let PLAYER_AMOUNT = 30;
+let PLAYER_AMOUNT = 3;
 let ITERATIONS = 750;
 let MUTATION_RATE = 0.3;
 let ELITISM = Math.round(0.1 * PLAYER_AMOUNT);
@@ -44,10 +44,10 @@ function startEvaluation(){
     //make a new world
     highestScore = 0;
     m = new Moon(neat.population);
-    neat.mutate();
 }
 
 function endEvaluation(){
+    
     framecount = 0;
     m.Evaluate();
     console.log('Generation:', neat.generation, '- average score:', Math.round(neat.getAverage()));
@@ -74,6 +74,4 @@ function endEvaluation(){
     neat.mutate();
     neat.generation++;
     startEvaluation();
-    
-
 }

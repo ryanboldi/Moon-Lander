@@ -207,6 +207,11 @@ class Lander {
         let right = probs[1]
         let up = probs[2]
 
+
+        //console.log(left);
+        //console.log(right);
+        console.log(up);
+
         if (left > right && left > 0.5) {
             //rotate counterclockwise
             Matter.Body.rotate(this.L, -landerRotAngle);
@@ -226,12 +231,20 @@ class Lander {
             force.rotate(this.L.angle + (Math.PI / 2));
             //line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
             this.booster = true;
-           
+
+            fill(255, 165, 0);
+            noStroke();
+            push();
+            translate(this.body.position.x, this.body.position.y)
+            rotate(this.L.angle)
+            triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+            pop();
+
             //x: (landerWidth / 2.5),
             //y: (landerWidth / (1.5 * 2))
             Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y })
         }
-        if (up < 0.5) this.booster = false;
+        if (up <= 0.5) this.booster = false;
         //console.log(this.body.position)
     }
 
