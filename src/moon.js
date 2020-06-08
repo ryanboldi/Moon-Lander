@@ -1,5 +1,6 @@
 class Moon {
     constructor(genomeArray) {
+        noiseSeed(random(0,100));
         this.engine = Engine.create();
         this.landers = [];
         for (let i = 0; i < genomeArray.length; i++){
@@ -47,7 +48,7 @@ class Moon {
 
     update() {
         this.landers.forEach(l => l.update(this.ground));
-        Engine.update(this.engine, 0.0001);
+        //Engine.update(this.engine, 0.0001);
     }
 
     draw() {

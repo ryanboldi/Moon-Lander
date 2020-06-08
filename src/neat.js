@@ -6,7 +6,7 @@ let Architect = neataptic.Architect;
 //turn off warnings
 Config.warnings = false;
 
-let PLAYER_AMOUNT = 3;
+let PLAYER_AMOUNT = 10;
 let ITERATIONS = 750;
 let MUTATION_RATE = 0.3;
 let ELITISM = Math.round(0.1 * PLAYER_AMOUNT);
@@ -43,6 +43,8 @@ function initNeat(){
 function startEvaluation(){
     //make a new world
     highestScore = 0;
+
+    m = new Moon(neat.population);
     m = new Moon(neat.population);
 }
 

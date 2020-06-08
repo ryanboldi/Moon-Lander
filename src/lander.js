@@ -5,7 +5,7 @@ class Lander {
             {
                 label: "lander"
             });
-        this.drawEyes = true;
+
 
         this.footWidth = footWidth * landerWidth;
         this.rayLength = rayLength;
@@ -203,14 +203,41 @@ class Lander {
 
     //[left prob, right prob, up prob] each between 0-1
     Move(probs) {
+       // console.log(probs)
         let left = probs[0]
         let right = probs[1]
         let up = probs[2]
 
+        if (up > 0.5) {
+            //force up
+            stroke(100, 10, 0);
+            let force = createVector(-100, 0);
+            force.normalize();
+            force.mult(landerBoosterStrength * (this.body.mass + (this.foot1.mass * 2))); //make it a specific length
+            force.rotate(this.L.angle + (Math.PI / 2));
+            Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y });
+            //console.log(force);
+            //strokeWeight(10);
+            line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
+            //this.booster = true;
+
+            fill(255, 165, 0);
+            noStroke();
+
+            push();
+            translate(this.body.position.x, this.body.position.y);
+            rotate(this.L.angle);
+            triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+            pop();
+
+            //x: (landerWidth / 2.5),
+            //y: (landerWidth / (1.5 * 2))
+            
+        }
 
         //console.log(left);
         //console.log(right);
-        console.log(up);
+        //console.log(up);
 
         if (left > right && left > 0.5) {
             //rotate counterclockwise
@@ -222,28 +249,8 @@ class Lander {
             Matter.Body.rotate(this.L, landerRotAngle);
         }
 
-        if (up > 0.5) {
-            //force up
-            stroke(100, 10, 0);
-            let force = createVector(-100, 0);
-            force.normalize();
-            force.mult(landerBoosterStrength * (this.body.mass + (this.foot1.mass * 2))); //make it a specific length
-            force.rotate(this.L.angle + (Math.PI / 2));
-            //line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
-            this.booster = true;
 
-            fill(255, 165, 0);
-            noStroke();
-            push();
-            translate(this.body.position.x, this.body.position.y)
-            rotate(this.L.angle)
-            triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
-            pop();
 
-            //x: (landerWidth / 2.5),
-            //y: (landerWidth / (1.5 * 2))
-            Matter.Body.applyForce(this.L, this.body.position, { x: force.x, y: force.y })
-        }
         if (up <= 0.5) this.booster = false;
         //console.log(this.body.position)
     }
@@ -264,7 +271,7 @@ class Lander {
             });
             endShape(CLOSE);
 
-            if (this.drawEyes) {
+            if (drawEyes) {
                 //draw rays
                 stroke(0);
                 for (let i = 0; i < this.rays.length; i++) {
@@ -293,15 +300,15 @@ class Lander {
             });
             endShape(CLOSE);
 
-            if (this.booster) {
-                fill(255, 165, 0);
-                noStroke();
-                push();
-                translate(this.body.position.x, this.body.position.y)
-                rotate(this.L.angle)
-                triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
-                pop();
-            }
+            //if (this.booster) {
+            //     fill(255, 165, 0);
+            //    noStroke();
+            //    push();
+            //   translate(this.body.position.x, this.body.position.y)
+            //rotate(this.L.angle)
+            //   triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+            //   pop();
+            // }
 
             // push()
             // translate(this.body.position.x, this.body.position.y);
