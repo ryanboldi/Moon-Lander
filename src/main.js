@@ -1,8 +1,8 @@
 const WIDTH = 1000,
     HEIGHT = 800,
-    groundFrac = 6, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
+    groundFrac = 10, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
     groundSections = 12, // good to make width divisble by this.
-    groundHeightVariance = 20; //(-variance -> variance)
+    groundHeightVariance = 200; //(-variance -> variance)
 
 const landerWidth = 30;
 const footWidth = 0.15; //* landerWidth
@@ -13,12 +13,12 @@ const moonGravity = 0.35;
 
 let framecount = 0;
 
-const boosterCost = 0.0005; //cost to run booster
+const boosterCost = 0.005; //cost to run booster
 
 let drawEyes = true;
 
 let rayCount = 9;
-let rayLength = 600;
+let rayLength = 200;
 let angleToCover = Math.PI / 2;
 let rayDif = angleToCover / rayCount;
 let startAngle = (Math.PI - angleToCover) / 2;
@@ -95,7 +95,7 @@ function timeStep(pb = true) {
     m.checkAlive();
 
     if (framecount == ITERATIONS) {
-        console.log("RAN OUT OF TIME");
+        //console.log("RAN OUT OF TIME");
         endEvaluation();
     }
     framecount++;

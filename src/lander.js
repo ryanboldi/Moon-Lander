@@ -13,7 +13,7 @@ class Lander {
         this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
 
-        this.L = Matter.Body.create({ restitution: 1 });
+        this.L = Matter.Body.create({ restitution: 0.6 });
         this.L.collisionFilter.group = -1;
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
@@ -188,7 +188,7 @@ class Lander {
             this.brain.score = Math.PI - this.groundAngle;
         } else if (!this.alive) {
             //died (crashed)
-            this.brain.score = 0;
+            this.brain.score = Math.PI - this.groundAngle;
         } else {
             //this shouldn't happen, but just in case
             this.brain.score = 0;
@@ -197,13 +197,11 @@ class Lander {
         this.brain.score -= (this.boosterON * boosterCost);
         this.fitness = this.brain.score;
 
-        console.log(this.brain.score);
+        //console.log(this.brain.score);
     }
 
     fitness() {
-        console.log(this.brain.score);
-        this.fitness = this.brain.score;
-        return this.fitness
+        return this.brain.score
     }
 
 

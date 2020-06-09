@@ -16,7 +16,7 @@ let neat;
 function initNeat(){
     neat = new Neat(
         rayCount + 4, 3,
-        null,
+        0,
         {
             mutation: [
                 Methods.Mutation.ADD_NODE,
@@ -50,8 +50,9 @@ function endEvaluation(){
     
     framecount = 0;
     m.Evaluate();
-    console.log('Generation:', neat.generation, '- average score:', Math.round(neat.getAverage()));
-    console.log('Fittest score:', Math.round(neat.getFittest().score));
+    
+    console.log('Generation:', neat.generation, '- average score:', neat.getAverage(), 'Fittest score:', neat.getFittest().score);
+    //console.log('Fittest score:', neat.getFittest().score);
     //EVALUATE ALL THE CREATURES --
     //here we need to find the genome.score for every lander based on varius things we've stored during the run
     //-------------------------------
