@@ -13,7 +13,7 @@ class Lander {
         this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
 
-        this.L = Matter.Body.create({ restitution: 0.5 });
+        this.L = Matter.Body.create({ restitution: 1 });
         this.L.collisionFilter.group = -1;
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
@@ -30,6 +30,8 @@ class Lander {
         this.touchdown = false;
         this.groundAngle = Math.PI;
         this.fitness = 0;
+
+        this.boosterON = 0;
     }
 
     update(ground) {
@@ -192,23 +194,28 @@ class Lander {
             this.brain.score = 0;
         }
 
+        this.brain.score -= (this.boosterON * boosterCost);
         this.fitness = this.brain.score;
-        //console.log(this.brain.score);
+
+        console.log(this.brain.score);
     }
 
     fitness() {
+        console.log(this.brain.score);
+        this.fitness = this.brain.score;
         return this.fitness
     }
 
 
     //[left prob, right prob, up prob] each between 0-1
     Move(probs) {
-       // console.log(probs)
+        // console.log(probs)
         let left = probs[0]
         let right = probs[1]
         let up = probs[2]
 
         if (up > 0.5) {
+            this.boosterON += 1;
             //force up
             stroke(100, 10, 0);
             let force = createVector(-100, 0);
@@ -220,19 +227,20 @@ class Lander {
             //strokeWeight(10);
             line(this.ray_x, this.ray_y, this.ray_x + force.x, this.ray_y + force.y);
             //this.booster = true;
+            if (this.alive) {
+                fill(255, 165, 0);
+                noStroke();
 
-            fill(255, 165, 0);
-            noStroke();
-
-            push();
-            translate(this.body.position.x, this.body.position.y);
-            rotate(this.L.angle);
-            triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
-            pop();
+                push();
+                translate(this.body.position.x, this.body.position.y);
+                rotate(this.L.angle);
+                triangle(-(landerWidth / 5), (landerWidth / (1.5 * 2)), (landerWidth / 5), (landerWidth / (1.5 * 2)), 0, landerWidth);
+                pop();
+            }
 
             //x: (landerWidth / 2.5),
             //y: (landerWidth / (1.5 * 2))
-            
+
         }
 
         //console.log(left);

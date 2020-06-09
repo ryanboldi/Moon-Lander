@@ -2,20 +2,22 @@ const WIDTH = 1000,
     HEIGHT = 800,
     groundFrac = 6, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
     groundSections = 12, // good to make width divisble by this.
-    groundHeightVariance = 170; //(-variance -> variance)
+    groundHeightVariance = 20; //(-variance -> variance)
 
 const landerWidth = 30;
 const footWidth = 0.15; //* landerWidth
 const landerRotAngle = 0.01; // radians per frame
-const landerBoosterStrength = 0.000275 //* lander mass
+const landerBoosterStrength = 0.000375 //* lander mass
 //const landerBoosterStrength = 1;
-const moonGravity = 0.3;
+const moonGravity = 0.35;
 
 let framecount = 0;
 
-const drawEyes = false;
+const boosterCost = 0.0005; //cost to run booster
 
-let rayCount = 18;
+let drawEyes = true;
+
+let rayCount = 9;
 let rayLength = 600;
 let angleToCover = Math.PI / 2;
 let rayDif = angleToCover / rayCount;
