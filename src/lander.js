@@ -186,10 +186,10 @@ class Lander {
             this.brain.score = Math.PI - this.groundAngle;
         } else if (!this.alive) {
             //died (crashed)
-            this.brain.score = Math.PI - this.groundAngle;
+            this.brain.score = 0;
         } else {
             //this shouldn't happen, but just in case
-            this.brain.score = Math.PI - this.groundAngle;
+            this.brain.score = 0;
         }
 
         this.fitness = this.brain.score;
@@ -248,8 +248,6 @@ class Lander {
             //rotate clockwise
             Matter.Body.rotate(this.L, landerRotAngle);
         }
-
-
 
         if (up <= 0.5) this.booster = false;
         //console.log(this.body.position)
