@@ -16,12 +16,12 @@ let framecount = 0;
 const deathDepth = 0.05; //col depth
 const deathSpeed = 1.4; // y vel
 
-const boosterCost = 0.005; //cost to run booster
+const boosterCost = 0.0025; //cost to run booster
 
 let drawEyes = true;
 
 let rayCount = 9;
-let rayLength = 200;
+let rayLength = 500;
 let angleToCover = Math.PI / 2;
 let rayDif = angleToCover / rayCount;
 let startAngle = (Math.PI - angleToCover) / 2;

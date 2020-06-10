@@ -6,10 +6,10 @@ let Architect = neataptic.Architect;
 //turn off warnings
 Config.warnings = false;
 
-let PLAYER_AMOUNT = 30;
+let PLAYER_AMOUNT = 25;
 let ITERATIONS = 1000;
-let MUTATION_RATE = 0.5;
-let ELITISM = Math.round(0.1 * PLAYER_AMOUNT);
+let MUTATION_RATE = 0.4;
+let ELITISM = Math.round(0.2 * PLAYER_AMOUNT);
 
 let neat;
 

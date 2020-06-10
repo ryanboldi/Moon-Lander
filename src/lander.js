@@ -196,7 +196,8 @@ class Lander {
             this.brain.score = Math.PI - this.groundAngle;
         } else if (!this.alive) {
             //died (crashed)
-            this.brain.score = Math.PI - this.groundAngle;
+            //this.brain.score = Math.PI - this.groundAngle;
+            this.brain.score = 0;
         } else {
             //this shouldn't happen, but just in case
             this.brain.score = 0;
