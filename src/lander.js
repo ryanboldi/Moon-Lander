@@ -119,15 +119,23 @@ class Lander {
                 //check for touchdown (one or both feet colided)
                 let f1 = false;
                 let f2 = false;
+                let f1Depth = 0;
+                let f2Depth = 0;
                 for (let i = 1; i < ground.parts.length; i++) {
                     if (Matter.SAT.collides(ground.parts[i], this.foot1).collided) {
                         f1 = true;
+                        f1Depth = Matter.SAT.collides(ground.parts[i], this.foot1).depth;
                     } if (Matter.SAT.collides(ground.parts[i], this.foot2).collided) {
                         f2 = true;
+                        f2Depth = Matter.SAT.collides(ground.parts[i], this.foot2).depth;
                     }
                 }
 
                 if (f1 || f2) {
+                    console.log(`HIT! depth: ${f1Depth}, ${f2Depth}, speed: ${this.L.velocity.y} dist: ${deathDepth}`);
+                    if ((f1Depth > deathDepth || f2Depth > deathDepth) && (Math.abs(this.L.velocity.y) > deathSpeed)){
+                        this.alive = false;
+                    }
                     this.touchdown = true;
                     //try to find angle of the ground directly underneath the player. 
                     //send a raycast straight down, and find the normal of the closest colision
@@ -180,10 +188,10 @@ class Lander {
         }
 
         //console.log(`f1: ${f1}, f2: ${f2}`);
-        if (this.alive && f1 && f2) {
+        if (this.alive && (f1 || f2)) {
             //alive and landed safetly, fitness = 10;
             this.brain.score = 10;
-        } else if (this.alive && !(f1 && f2)) {
+        } else if (this.alive && !(f1 || f2)) {
             //alive but hasn't landed fully
             this.brain.score = Math.PI - this.groundAngle;
         } else if (!this.alive) {
