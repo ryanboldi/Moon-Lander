@@ -1,17 +1,20 @@
 const WIDTH = 1000,
     HEIGHT = 800,
-    groundFrac = 10, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
-    groundSections = 12, // good to make width divisble by this.
+    groundFrac = 12, //1/groundfrac is how much the ground takes up of the screen (5 -> 1/5)
+    groundSections = 8, // good to make width divisble by this.
     groundHeightVariance = 200; //(-variance -> variance)
 
 const landerWidth = 30;
 const footWidth = 0.15; //* landerWidth
 const landerRotAngle = 0.015; // radians per frame
-const landerBoosterStrength = 0.000275 //* lander mass
+const landerBoosterStrength = 0.000375 //* lander mass
 //const landerBoosterStrength = 1;
 const moonGravity = 0.35;
 
 let framecount = 0;
+
+const deathDepth = 0.05; //col depth
+const deathSpeed = 1.4; // y vel
 
 const boosterCost = 0.005; //cost to run booster
 
@@ -84,6 +87,7 @@ function draw() {
         noLoop();
     }
     m.landers[0].Move([left, right, up]);
+    //console.log(m.landers[0].L.velocity.y);
 }
 
 function timeStep(pb = true) {
