@@ -132,7 +132,7 @@ class Lander {
                 }
 
                 if (f1 || f2) {
-                    console.log(`HIT! depth: ${f1Depth}, ${f2Depth}, speed: ${this.L.velocity.y} dist: ${deathDepth}`);
+                    //console.log(`HIT! depth: ${f1Depth}, ${f2Depth}, speed: ${this.L.velocity.y} dist: ${deathDepth}`);
                     if ((f1Depth > deathDepth || f2Depth > deathDepth) && (Math.abs(this.L.velocity.y) > deathSpeed)){
                         this.alive = false;
                     }
