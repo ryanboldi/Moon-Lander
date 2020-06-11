@@ -1,7 +1,7 @@
 class Lander {
     constructor(genome, engine) {
         this.brain = genome;
-        this.body = Bodies.trapezoid(random(200, 400), 50, landerWidth, landerWidth / 1.5, -0.5,
+        this.body = Bodies.trapezoid(random(200, 400), 50, landerWidth * 1.3, landerWidth / 1.5, -0.5,
             {
                 label: "lander"
             });
@@ -162,6 +162,12 @@ class Lander {
                 }
             }
         }
+
+        if (Math.abs(this.L.angle) > Math.PI){
+            this.alive = false;
+        }
+
+
         //get inputs
         let inputs = deepcopy(this.sight);
         inputs.push(map(this.L.velocity.x, -5, 5, -1, 1));
@@ -194,10 +200,11 @@ class Lander {
         } else if (this.alive && !(f1 || f2)) {
             //alive but hasn't landed fully
             this.brain.score = Math.PI - this.groundAngle;
+            //this.brain.score = 0;
         } else if (!this.alive) {
             //died (crashed)
-            //this.brain.score = Math.PI - this.groundAngle;
-            this.brain.score = 0;
+            this.brain.score = Math.PI - this.groundAngle;
+            //this.brain.score = 0;
         } else {
             //this shouldn't happen, but just in case
             this.brain.score = 0;
