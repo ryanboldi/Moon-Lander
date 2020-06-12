@@ -7,7 +7,8 @@ const WIDTH = 1200,
 const landerWidth = 35;
 const footWidth = 0.15; //* landerWidth
 const landerRotAngle = 0.015; // radians per frame
-const landerBoosterStrength = 0.000325 //* lander mass
+//const landerBoosterStrength = 0.000325 //* lander mass
+const landerBoosterStrength = 0.0005;
 //const landerBoosterStrength = 1;
 const moonGravity = 0.35;
 
@@ -21,7 +22,7 @@ const boosterCost = 0.0025; //cost to run booster
 let drawEyes = true;
 
 let rayCount = 9;
-let rayLength = 200;
+let rayLength = 300;
 let angleToCover = Math.PI / 2;
 let rayDif = angleToCover / rayCount;
 let startAngle = (Math.PI - angleToCover) / 2;
