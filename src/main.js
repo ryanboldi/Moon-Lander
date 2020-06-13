@@ -6,7 +6,8 @@ const WIDTH = 1200,
 
 const landerWidth = 35;
 const footWidth = 0.15; //* landerWidth
-const landerRotAngle = 0.015; // radians per frame
+//const landerRotAngle = 0.015; // radians per frame
+const landerRotAngle = 0.015;
 //const landerBoosterStrength = 0.000325 //* lander mass
 const landerBoosterStrength = 0.0005;
 //const landerBoosterStrength = 1;
@@ -14,10 +15,14 @@ const moonGravity = 0.35;
 
 let framecount = 0;
 
-const deathDepth = 0.05; //col depth
-const deathSpeed = 1.4; // y vel
+const deathDepth = 100; //col depth
+const deathSpeed = 100; // y vel
 
-const boosterCost = 0.0025; //cost to run booster
+const boosterCost = 0.1; //cost to run booster
+const aliveReward = 0.1; //reward for being alive one frame
+
+
+const bounce = 1;
 
 let drawEyes = true;
 

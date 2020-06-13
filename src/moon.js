@@ -81,7 +81,7 @@ class Moon {
 
         //let pos = Matter.Vertices.centre(vertices);
 
-        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground', restitution: 1});
+        this.ground = Bodies.fromVertices(Matter.Vertices.centre(vertices).x, Matter.Vertices.centre(vertices).y, vertices, { isStatic: true, label: 'ground', restitution: bounce});
 
 
         //find difference from ground's first vertex and 0

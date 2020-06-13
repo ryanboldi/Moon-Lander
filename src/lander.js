@@ -13,7 +13,7 @@ class Lander {
         this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
 
-        this.L = Matter.Body.create({ restitution: 0.6 });
+        this.L = Matter.Body.create({ restitution:  bounce});
         this.L.collisionFilter.group = -1;
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
@@ -31,10 +31,13 @@ class Lander {
         this.groundAngle = Math.PI;
         this.fitness = 0;
 
+        this.aliveTime = 0;
+
         this.boosterON = 0;
     }
 
     update(ground) {
+        if (this.alive) this.aliveTime++;
         //----------CHECKS FOR DEATH
         //if the lander's body hits any part of the ground:
         for (let i = 1; i < ground.parts.length; i++) {
@@ -211,6 +214,7 @@ class Lander {
         }
 
         this.brain.score -= (this.boosterON * boosterCost);
+        this.brain.score += (aliveReward * this.aliveTime);
         this.fitness = this.brain.score;
 
         //console.log(this.brain.score);
