@@ -13,7 +13,7 @@ class Lander {
         this.foot1 = Bodies.rectangle(this.body.position.x - (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
         this.foot2 = Bodies.rectangle(this.body.position.x + (landerWidth / 2.5), this.body.position.y + (landerWidth / (1.5 * 2)) + (this.footWidth), this.footWidth, this.footWidth * 2);
 
-        this.L = Matter.Body.create({ restitution:  bounce});
+        this.L = Matter.Body.create({ restitution: bounce });
         this.L.collisionFilter.group = -1;
 
         Matter.Body.setParts(this.L, [this.body, this.foot1, this.foot2]);
@@ -136,7 +136,7 @@ class Lander {
 
                 if (f1 || f2) {
                     //console.log(`HIT! depth: ${f1Depth}, ${f2Depth}, speed: ${this.L.velocity.y} dist: ${deathDepth}`);
-                    if ((f1Depth > deathDepth || f2Depth > deathDepth) && (Math.abs(this.L.velocity.y) > deathSpeed)){
+                    if ((f1Depth > deathDepth || f2Depth > deathDepth) && (Math.abs(this.L.velocity.y) > deathSpeed)) {
                         this.alive = false;
                     }
                     this.touchdown = true;
@@ -166,7 +166,7 @@ class Lander {
             }
         }
 
-        if (Math.abs(this.L.angle) > Math.PI){
+        if (Math.abs(this.L.angle) > Math.PI) {
             this.alive = false;
         }
 
@@ -228,8 +228,14 @@ class Lander {
     //[left prob, right prob, up prob] each between 0-1
     Move(probs) {
         // console.log(probs)
-        let left = probs[0]
-        let right = probs[1]
+        if (!this.touchdown) {
+            let left = probs[0]
+            let right = probs[1]
+        }
+        else{
+            let left = 0;
+            let right = 0;
+        }
         let up = probs[2]
 
         if (up > 0.5) {
