@@ -18,11 +18,11 @@ let framecount = 0;
 const deathDepth = 100; //col depth
 const deathSpeed = 100; // y vel
 
-const boosterCost = 0.1; //cost to run booster
-const aliveReward = 0.1; //reward for being alive one frame
+const boosterCost = 0.001; //cost to run booster
+const aliveReward = 0.001; //reward for being alive one frame
 
 
-const bounce = 1;
+const bounce = 0.3;
 
 let drawEyes = true;
 

@@ -228,15 +228,21 @@ class Lander {
     //[left prob, right prob, up prob] each between 0-1
     Move(probs) {
         // console.log(probs)
+        let left = 0;
+        let right = 0;
+        let up = 0;
+
         if (!this.touchdown) {
-            let left = probs[0]
-            let right = probs[1]
+            let left = probs[0];
+            let right = probs[1];
+            let up = probs[2]
         }
         else{
             let left = 0;
             let right = 0;
+            let up = 0;
         }
-        let up = probs[2]
+       
 
         if (up > 0.5) {
             this.boosterON += 1;
