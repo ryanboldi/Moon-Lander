@@ -233,16 +233,16 @@ class Lander {
         let up = 0;
 
         if (!this.touchdown) {
-            let left = probs[0];
-            let right = probs[1];
-            let up = probs[2]
+            left = probs[0];
+            right = probs[1];
+            up = probs[2];
         }
-        else{
-            let left = 0;
-            let right = 0;
-            let up = 0;
+        else {
+            left = 0;
+            right = 0;
+            up = 0;
         }
-       
+
 
         if (up > 0.5) {
             this.boosterON += 1;
