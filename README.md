@@ -5,7 +5,6 @@
 ![inputs](/assets/inputs.png)
 ![eyes](/assets/eyes.png)
 
-
 # Outputs: What the Landers can do
 ![outputs](/assets/outputs.png)
 
@@ -13,3 +12,4 @@
 ![fitness](/assets/plan.png)
 
 
+# Final result of evolution:
